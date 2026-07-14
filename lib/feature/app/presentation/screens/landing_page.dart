@@ -16,11 +16,8 @@ class LandingPage extends StatelessWidget {
         children: [
           Image.asset(AssetsHelper.langingPageImage),
           Image.asset(AssetsHelper.noise),
-
           Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Spacer(flex: 3),
                 Text(
@@ -45,7 +42,7 @@ class LandingPage extends StatelessWidget {
                   borderRadius: 6,
                   backgroundColor: AppColors.primaryColor,
                   onTap: () {
-                    Navigator.pushNamed(context, AppRoutes.register);
+                    Navigator.pushReplacementNamed(context, AppRoutes.register);
                   },
                   child: Center(
                     child: Text(
@@ -64,7 +61,7 @@ class LandingPage extends StatelessWidget {
                   borderRadius: 6,
                   borderColor: AppColors.primaryColor,
                   onTap: () {
-                    Navigator.pushNamed(context, AppRoutes.login);
+                    Navigator.pushReplacementNamed(context, AppRoutes.login);
                   },
                   child: Center(
                     child: Text(
