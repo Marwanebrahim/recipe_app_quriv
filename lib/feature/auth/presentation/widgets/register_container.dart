@@ -7,25 +7,77 @@ import 'package:recipe_app_quriv/core/styles/app_text_style.dart';
 import 'package:recipe_app_quriv/core/widgets/custom_button_widget.dart';
 import 'package:recipe_app_quriv/feature/auth/presentation/widgets/custom_text_form_field.dart';
 
-class LogInContainer extends StatelessWidget {
-  const LogInContainer({
+class RegisterContainer extends StatefulWidget {
+  const RegisterContainer({
     super.key,
+    required this.nameController,
     required this.emailController,
     required this.passwordController,
-    required GlobalKey<FormState> formKey,
-  }) : _formKey = formKey;
+    required this.formKey,
+  });
+  final TextEditingController nameController;
   final TextEditingController emailController;
   final TextEditingController passwordController;
-  final GlobalKey<FormState> _formKey;
+  final GlobalKey<FormState> formKey;
+
+  @override
+  State<RegisterContainer> createState() => _RegisterContainerState();
+}
+
+class _RegisterContainerState extends State<RegisterContainer> {
+  bool _termsAccepted = false;
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,
+      key: widget.formKey,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              "Name",
+              style: AppTextStyles.bold(
+                size: 18,
+                color: AppColors.black,
+                font: AppFont.inter,
+              ),
+            ),
+            SizedBox(height: 8.h),
+            CustomTextFormField(
+              hintWidget: Row(
+                spacing: 6.w,
+                children: [
+                  Icon(
+                    Icons.person_outline_outlined,
+                    size: 24.w,
+                    color: AppColors.primaryColor,
+                  ),
+                  Text(
+                    "Name",
+                    style: AppTextStyles.regular(
+                      size: 18,
+                      color: AppColors.secondaryTextColor.withValues(
+                        alpha: 0.6,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              isPassword: false,
+              controller: widget.emailController,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Please enter your name";
+                }
+                if (value.length < 6) {
+                  return "Name must be at least 6 characters";
+                }
+
+                return null;
+              },
+            ),
+            SizedBox(height: 18.h),
             Text(
               "EMAIL",
               style: AppTextStyles.bold(
@@ -56,7 +108,7 @@ class LogInContainer extends StatelessWidget {
                 ],
               ),
               isPassword: false,
-              controller: emailController,
+              controller: widget.emailController,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter your email';
@@ -101,7 +153,7 @@ class LogInContainer extends StatelessWidget {
                 ],
               ),
               isPassword: false,
-              controller: passwordController,
+              controller: widget.passwordController,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter your password';
@@ -111,6 +163,35 @@ class LogInContainer extends StatelessWidget {
                 }
                 return null;
               },
+            ),
+            SizedBox(height: 18.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Checkbox(
+                  shape: CircleBorder(
+                    side: BorderSide(
+                      color: AppColors.primaryColor,
+                      width: 1.5.w,
+                    ),
+                  ),
+                  activeColor: AppColors.primaryColor,
+                  value: _termsAccepted,
+                  onChanged: (value) {
+                    setState(() {
+                      _termsAccepted = value ?? false;
+                    });
+                  },
+                ),
+                Text(
+                  "I agree to the Terms & Conditions",
+                  style: AppTextStyles.semibold(
+                    size: 16,
+                    color: AppColors.black.withValues(alpha: 0.6),
+                    font: AppFont.inter,
+                  ),
+                ),
+              ],
             ),
             SizedBox(height: 46.h),
             CustomButtonWidget(
@@ -129,37 +210,31 @@ class LogInContainer extends StatelessWidget {
               ),
               onTap: () {},
             ),
-            SizedBox(height: 10.h),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                "Forgot Password ?",
-                style: AppTextStyles.semibold(size: 16, color: AppColors.black),
-              ),
-            ),
-            SizedBox(height: 34.h),
+            SizedBox(height: 20.h),
             Center(
               child: Text.rich(
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: "Don't have an account ? ",
-                      style: AppTextStyles.semibold(
-                        size: 18,
-                        color: AppColors.black,
+                      text: "Already have an account? ",
+                      style: AppTextStyles.regular(
+                        size: 16,
+                        color: AppColors.black.withValues(alpha: 0.6),
+                        font: AppFont.inter,
                       ),
                     ),
                     TextSpan(
-                      text: "Sign Up",
-                      style: AppTextStyles.semibold(
-                        size: 18,
+                      text: "Log In",
+                      style: AppTextStyles.bold(
+                        size: 16,
                         color: AppColors.primaryColor,
+                        font: AppFont.inter,
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           Navigator.pushReplacementNamed(
                             context,
-                            AppRoutes.register,
+                            AppRoutes.login,
                           );
                         },
                     ),
