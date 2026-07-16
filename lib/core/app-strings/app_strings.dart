@@ -1,5 +1,5 @@
 class AppStrings {
-  static const String recipeCategoriesUrl =
-      "https://dummyjson.com/recipes/tags";
-  static const String recipeUrl = "https://dummyjson.com/recipes";
+  static const String baseUrl = "https://dummyjson.com";
+  static const String recipesUrl = "/recipes";
+  static const String recipeCategoriesUrl = "$recipesUrl/tags";
 }

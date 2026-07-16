@@ -14,7 +14,7 @@ class RemoteDataSourceImpl implements RemoteDataSource {
   RemoteDataSourceImpl({required Dio dio}) : _dio = dio;
   @override
   Future<List<RecipeModel>> getAllRecipes() async {
-    final response = await _dio.get(AppStrings.recipeUrl);
+    final response = await _dio.get(AppStrings.recipesUrl);
     final recipesMap = response.data["recipes"] as List<Map<String, dynamic>>;
     return recipesMap.map((e) => RecipeModel.fromJson(e)).toList();
   }
