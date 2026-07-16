@@ -210,7 +210,7 @@ class _RegisterContainerState extends State<RegisterContainer> {
               ),
               onTap: () {
                 if (widget.formKey.currentState!.validate() && _termsAccepted) {
-                  Navigator.pushReplacementNamed(context, AppRoutes.home);
+                  Navigator.pushReplacementNamed(context, AppRoutes.appWrapper);
                 }
               },
             ),

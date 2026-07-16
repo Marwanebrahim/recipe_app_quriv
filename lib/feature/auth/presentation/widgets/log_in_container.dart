@@ -129,7 +129,7 @@ class LogInContainer extends StatelessWidget {
               ),
               onTap: () {
                 if (_formKey.currentState!.validate()) {
-                  Navigator.pushReplacementNamed(context, AppRoutes.home);
+                  Navigator.pushReplacementNamed(context, AppRoutes.appWrapper);
                 }
               },
             ),

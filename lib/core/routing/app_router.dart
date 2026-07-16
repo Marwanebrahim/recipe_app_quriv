@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_app_quriv/core/routing/app_routes.dart';
+import 'package:recipe_app_quriv/feature/app/presentation/screens/app_wrapper.dart';
 import 'package:recipe_app_quriv/feature/app/presentation/screens/landing_page.dart';
 import 'package:recipe_app_quriv/feature/auth/presentation/screens/log_in_screen.dart';
 import 'package:recipe_app_quriv/feature/auth/presentation/screens/register_screen.dart';
-import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_bloc.dart';
-import 'package:recipe_app_quriv/feature/home/presentation/screens/home_screen.dart';
-import 'package:recipe_app_quriv/injection_container.dart';
 
 Route<dynamic> onGenerateRoute(RouteSettings setting) {
   switch (setting.name) {
@@ -16,11 +13,8 @@ Route<dynamic> onGenerateRoute(RouteSettings setting) {
       return MaterialPageRoute(builder: (_) => LogInScreen());
     case AppRoutes.register:
       return MaterialPageRoute(builder: (_) => RegisterScreen());
-    case AppRoutes.home:
-      return MaterialPageRoute(
-        builder: (_) =>
-            BlocProvider(create: (_) => sl<HomeBloc>(), child: HomeScreen()),
-      );
+    case AppRoutes.appWrapper:
+      return MaterialPageRoute(builder: (_) => AppWrapper());
     default:
       return MaterialPageRoute(
         builder: (_) => Scaffold(
