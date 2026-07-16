@@ -34,7 +34,15 @@ dependencies:
    # ui packages
   google_fonts: ^8.0.2
   flutter_screenutil: ^5.9.3
-
+  # state management packages
+  flutter_bloc: ^9.1.1
+  equatable: ^2.0.8
+  # Network packages
+  dio: ^5.9.2
+  # functional programming packages
+  dartz: ^0.10.1
+  # dependency injection
+  get_it: ^9.2.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

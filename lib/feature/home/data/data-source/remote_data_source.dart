@@ -1,0 +1,31 @@
+import 'package:dio/dio.dart';
+import 'package:recipe_app_quriv/core/app-strings/app_strings.dart';
+import 'package:recipe_app_quriv/core/error/exceptions.dart';
+import 'package:recipe_app_quriv/feature/home/data/models/recipe_model.dart';
+
+abstract class RemoteDataSource {
+  Future<List<String>> getCategories();
+  Future<List<RecipeModel>> getAllRecipes();
+}
+
+class RemoteDataSourceImpl implements RemoteDataSource {
+  final Dio _dio;
+
+  RemoteDataSourceImpl({required Dio dio}) : _dio = dio;
+  @override
+  Future<List<RecipeModel>> getAllRecipes() async {
+    final response = await _dio.get(AppStrings.recipeUrl);
+    final recipesMap = response.data["recipes"] as List<Map<String, dynamic>>;
+    return recipesMap.map((e) => RecipeModel.fromJson(e)).toList();
+  }
+
+  @override
+  Future<List<String>> getCategories() async {
+    try {
+      final response = await _dio.get(AppStrings.recipeCategoriesUrl);
+      return response.data as List<String>;
+    } catch (e) {
+      throw ServerException();
+    }
+  }
+}
