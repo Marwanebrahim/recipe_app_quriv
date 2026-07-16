@@ -100,7 +100,7 @@ class LogInContainer extends StatelessWidget {
                   ),
                 ],
               ),
-              isPassword: false,
+              isPassword: true,
               controller: passwordController,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -127,7 +127,11 @@ class LogInContainer extends StatelessWidget {
                   ),
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                if (_formKey.currentState!.validate()) {
+                  Navigator.pushReplacementNamed(context, AppRoutes.home);
+                }
+              },
             ),
             SizedBox(height: 10.h),
             Align(

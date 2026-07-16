@@ -65,7 +65,7 @@ class _RegisterContainerState extends State<RegisterContainer> {
                 ],
               ),
               isPassword: false,
-              controller: widget.emailController,
+              controller: widget.nameController,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Please enter your name";
@@ -152,7 +152,7 @@ class _RegisterContainerState extends State<RegisterContainer> {
                   ),
                 ],
               ),
-              isPassword: false,
+              isPassword: true,
               controller: widget.passwordController,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -208,7 +208,11 @@ class _RegisterContainerState extends State<RegisterContainer> {
                   ),
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                if (widget.formKey.currentState!.validate() && _termsAccepted) {
+                  Navigator.pushReplacementNamed(context, AppRoutes.home);
+                }
+              },
             ),
             SizedBox(height: 20.h),
             Center(
