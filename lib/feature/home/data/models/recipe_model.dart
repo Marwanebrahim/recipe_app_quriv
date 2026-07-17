@@ -50,30 +50,9 @@ class RecipeModel {
       tags: List<String>.from(json['tags']),
       userId: json['userId'],
       image: json['image'],
-      rating: json['rating'],
+      rating: json['rating'].toDouble(),
       reviewCount: json['reviewCount'],
       mealType: List<String>.from(json['mealType']),
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'ingredients': ingredients,
-      'instructions': instructions,
-      'prepTimeMinutes': prepTimeMinutes,
-      'cookTimeMinutes': cookTimeMinutes,
-      'servings': servings,
-      'difficulty': difficulty,
-      'cuisine': cuisine,
-      'caloriesPerServing': caloriesPerServing,
-      'tags': tags,
-      'userId': userId,
-      'image': image,
-      'rating': rating,
-      'reviewCount': reviewCount,
-      'mealType': mealType,
-    };
   }
 }

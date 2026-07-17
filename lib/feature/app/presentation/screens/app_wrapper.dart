@@ -48,25 +48,27 @@ class _AppWrapperState extends State<AppWrapper> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Stack(
-        children: [
-          IndexedStack(
-            index: _currentIndex,
-            sizing: StackFit.expand,
-            children: _screens,
-          ),
-          LiquidGlassBottomNav(
-            items: _items,
-            currentIndex: _currentIndex,
-            onTap: onTap,
-            backgroundColor: AppColors.white,
-            activeColor: AppColors.primaryColor,
-            inactiveColor: AppColors.black,
-            shadowBlurRadius: 32.r,
-            borderRadius: 24.r,
-            borderWidth: 1.5,
-          ),
-        ],
+      body: SafeArea(
+        child: Stack(
+          children: [
+            IndexedStack(
+              index: _currentIndex,
+              sizing: StackFit.expand,
+              children: _screens,
+            ),
+            LiquidGlassBottomNav(
+              items: _items,
+              currentIndex: _currentIndex,
+              onTap: onTap,
+              backgroundColor: AppColors.white,
+              activeColor: AppColors.primaryColor,
+              inactiveColor: AppColors.black,
+              shadowBlurRadius: 32.r,
+              borderRadius: 24.r,
+              borderWidth: 1.5,
+            ),
+          ],
+        ),
       ),
     );
   }
