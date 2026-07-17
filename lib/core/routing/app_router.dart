@@ -4,6 +4,8 @@ import 'package:recipe_app_quriv/feature/app/presentation/screens/app_wrapper.da
 import 'package:recipe_app_quriv/feature/app/presentation/screens/landing_page.dart';
 import 'package:recipe_app_quriv/feature/auth/presentation/screens/log_in_screen.dart';
 import 'package:recipe_app_quriv/feature/auth/presentation/screens/register_screen.dart';
+import 'package:recipe_app_quriv/feature/home/domain/entity/recipe_entity.dart';
+import 'package:recipe_app_quriv/feature/home/presentation/screens/details_screen.dart';
 
 Route<dynamic> onGenerateRoute(RouteSettings setting) {
   switch (setting.name) {
@@ -15,6 +17,9 @@ Route<dynamic> onGenerateRoute(RouteSettings setting) {
       return MaterialPageRoute(builder: (_) => RegisterScreen());
     case AppRoutes.appWrapper:
       return MaterialPageRoute(builder: (_) => AppWrapper());
+    case AppRoutes.detailsScreen:
+      final recipe = setting.arguments as RecipeEntity;
+      return MaterialPageRoute(builder: (_) => DetailsScreen(recipe: recipe));
     default:
       return MaterialPageRoute(
         builder: (_) => Scaffold(

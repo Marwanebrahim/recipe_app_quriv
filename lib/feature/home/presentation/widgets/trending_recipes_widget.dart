@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recipe_app_quriv/core/routing/app_routes.dart';
 import 'package:recipe_app_quriv/core/styles/app_colors.dart';
 import 'package:recipe_app_quriv/core/styles/app_text_style.dart';
 import 'package:recipe_app_quriv/core/widgets/custom_button_widget.dart';
@@ -72,7 +73,11 @@ class TrendingRecipesWidget extends StatelessWidget {
                         borderRadius: 4,
                         borderColor: AppColors.primaryColor,
                         onTap: () {
-                          //TODO: navigate to recipe details
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.detailsScreen,
+                            arguments: recipe,
+                          );
                         },
                         child: Center(
                           child: Text(
