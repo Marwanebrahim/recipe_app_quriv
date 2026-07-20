@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:liquid_glass_nav/liquid_glass_nav.dart';
-import 'package:recipe_app_quriv/core/styles/app_colors.dart';
+import 'package:recipe_app_quriv/core/constants/app_colors.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_bloc.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_event.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/screens/home_screen.dart';
-import 'package:recipe_app_quriv/injection_container.dart';
+import 'package:recipe_app_quriv/core/di/injection_container.dart';
 
-class AppWrapper extends StatefulWidget {
-  const AppWrapper({super.key});
+class MainNavigation extends StatefulWidget {
+  const MainNavigation({super.key});
 
   @override
-  State<AppWrapper> createState() => _AppWrapperState();
+  State<MainNavigation> createState() => _MainNavigationState();
 }
 
-class _AppWrapperState extends State<AppWrapper> {
+class _MainNavigationState extends State<MainNavigation> {
   int _currentIndex = 0;
   final _items = [
     const LiquidGlassNavItem(icon: Icons.home_filled, label: 'Home'),

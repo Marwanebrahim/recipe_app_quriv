@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recipe_app_quriv/core/styles/app_colors.dart';
-import 'package:recipe_app_quriv/core/styles/app_text_style.dart';
+import 'package:recipe_app_quriv/core/constants/app_assets.dart';
+import 'package:recipe_app_quriv/core/theme/app_text_style.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_bloc.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_state.dart';
 
@@ -40,19 +40,14 @@ class CategoryListWidget extends StatelessWidget {
                     final category = state.categories[index];
                     return Column(
                       children: [
-                        Container(
-                          width: 100,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            color: AppColors.lightBackgroundColor,
-                            borderRadius: BorderRadius.circular(8.r),
-                          ),
-                          child: Center(
-                            child: Icon(
-                              Icons.image_not_supported_outlined,
-                              size: 40,
-                              color: Colors.black,
-                            ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+
+                          child: Image.asset(
+                            AppAssets.categoryImage,
+                            fit: BoxFit.cover,
+                            height: 100.h,
+                            width: 100.w,
                           ),
                         ),
                         SizedBox(height: 8.h),

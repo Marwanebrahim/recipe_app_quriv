@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recipe_app_quriv/core/helpers/assets_helper.dart';
+import 'package:recipe_app_quriv/core/constants/app_assets.dart';
 import 'package:recipe_app_quriv/core/routing/app_routes.dart';
-import 'package:recipe_app_quriv/core/styles/app_colors.dart';
-import 'package:recipe_app_quriv/core/styles/app_text_style.dart';
+import 'package:recipe_app_quriv/core/constants/app_colors.dart';
+import 'package:recipe_app_quriv/core/theme/app_text_style.dart';
 import 'package:recipe_app_quriv/core/widgets/custom_button_widget.dart';
 
 class LandingPage extends StatelessWidget {
@@ -14,8 +14,8 @@ class LandingPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Image.asset(AssetsHelper.langingPageImage),
-          Image.asset(AssetsHelper.noise),
+          Positioned.fill(child: Image.asset(AppAssets.langingPageImage)),
+          Positioned.fill(child: Image.asset(AppAssets.noise)),
           Center(
             child: Column(
               children: [
@@ -37,7 +37,7 @@ class LandingPage extends StatelessWidget {
                 ),
                 Spacer(flex: 2),
                 CustomButtonWidget(
-                  hieght: 55,
+                  height: 55,
                   width: 361,
                   borderRadius: 6,
                   backgroundColor: AppColors.primaryColor,
@@ -56,7 +56,7 @@ class LandingPage extends StatelessWidget {
                 ),
                 SizedBox(height: 43.h),
                 CustomButtonWidget(
-                  hieght: 55,
+                  height: 55,
                   width: 361,
                   borderRadius: 6,
                   borderColor: AppColors.primaryColor,

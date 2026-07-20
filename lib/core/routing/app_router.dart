@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app_quriv/core/routing/app_routes.dart';
-import 'package:recipe_app_quriv/feature/app/presentation/screens/app_wrapper.dart';
+import 'package:recipe_app_quriv/feature/app/presentation/screens/main_navigation.dart';
 import 'package:recipe_app_quriv/feature/app/presentation/screens/landing_page.dart';
 import 'package:recipe_app_quriv/feature/auth/presentation/screens/log_in_screen.dart';
 import 'package:recipe_app_quriv/feature/auth/presentation/screens/register_screen.dart';
@@ -15,8 +15,8 @@ Route<dynamic> onGenerateRoute(RouteSettings setting) {
       return MaterialPageRoute(builder: (_) => LogInScreen());
     case AppRoutes.register:
       return MaterialPageRoute(builder: (_) => RegisterScreen());
-    case AppRoutes.appWrapper:
-      return MaterialPageRoute(builder: (_) => AppWrapper());
+    case AppRoutes.mainNavigation:
+      return MaterialPageRoute(builder: (_) => MainNavigation());
     case AppRoutes.detailsScreen:
       final recipe = setting.arguments as RecipeEntity;
       return MaterialPageRoute(builder: (_) => DetailsScreen(recipe: recipe));

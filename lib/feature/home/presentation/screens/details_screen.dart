@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recipe_app_quriv/core/styles/app_colors.dart';
-import 'package:recipe_app_quriv/core/styles/app_text_style.dart';
+import 'package:recipe_app_quriv/core/constants/app_colors.dart';
+import 'package:recipe_app_quriv/core/theme/app_text_style.dart';
 import 'package:recipe_app_quriv/feature/home/domain/entity/recipe_entity.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/widgets/ingredient_container.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/widgets/time_container.dart';
@@ -13,7 +13,6 @@ class DetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        foregroundColor: AppColors.secondaryTextColor,
         title: Text("Recipe", style: AppTextStyles.bold(size: 20)),
         centerTitle: true,
       ),

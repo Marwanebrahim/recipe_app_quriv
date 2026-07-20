@@ -1,9 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recipe_app_quriv/core/helpers/validators.dart';
 import 'package:recipe_app_quriv/core/routing/app_routes.dart';
-import 'package:recipe_app_quriv/core/styles/app_colors.dart';
-import 'package:recipe_app_quriv/core/styles/app_text_style.dart';
+import 'package:recipe_app_quriv/core/constants/app_colors.dart';
+import 'package:recipe_app_quriv/core/theme/app_text_style.dart';
 import 'package:recipe_app_quriv/core/widgets/custom_button_widget.dart';
 import 'package:recipe_app_quriv/feature/auth/presentation/widgets/custom_text_form_field.dart';
 
@@ -22,7 +23,7 @@ class LogInContainer extends StatelessWidget {
     return Form(
       key: _formKey,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -36,39 +37,21 @@ class LogInContainer extends StatelessWidget {
             ),
             SizedBox(height: 8.h),
             CustomTextFormField(
-              hintWidget: Row(
-                spacing: 6.w,
-                children: [
-                  Icon(
-                    Icons.email_outlined,
-                    size: 24.w,
-                    color: AppColors.primaryColor,
-                  ),
-                  Text(
-                    "email@gmail.com",
-                    style: AppTextStyles.regular(
-                      size: 18,
-                      color: AppColors.secondaryTextColor.withValues(
-                        alpha: 0.6,
-                      ),
-                    ),
-                  ),
-                ],
+              prefixIcon: Icon(
+                Icons.email_outlined,
+                size: 24.w,
+                color: AppColors.primaryColor,
               ),
-              isPassword: false,
+              hintWidget: Text(
+                "email@gmail.com",
+                style: AppTextStyles.regular(
+                  size: 18,
+                  color: AppColors.secondaryTextColor.withValues(alpha: 0.6),
+                ),
+              ),
+              isObsecure: false,
               controller: emailController,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your email';
-                }
-                if (!RegExp(
-                  r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                ).hasMatch(value)) {
-                  return 'Please enter a valid email address';
-                }
-
-                return null;
-              },
+              validator: (value) => Validators.emailValidator(value),
             ),
             SizedBox(height: 18.h),
             Text(
@@ -81,40 +64,25 @@ class LogInContainer extends StatelessWidget {
             ),
             SizedBox(height: 8.h),
             CustomTextFormField(
-              hintWidget: Row(
-                spacing: 6.w,
-                children: [
-                  Icon(
-                    Icons.lock_outline,
-                    size: 24.w,
-                    color: AppColors.primaryColor,
-                  ),
-                  Text(
-                    "••••••••",
-                    style: AppTextStyles.regular(
-                      size: 18,
-                      color: AppColors.secondaryTextColor.withValues(
-                        alpha: 0.6,
-                      ),
-                    ),
-                  ),
-                ],
+              prefixIcon: Icon(
+                Icons.lock_outline,
+                size: 24.w,
+                color: AppColors.primaryColor,
               ),
-              isPassword: true,
+              hintWidget: Text(
+                "••••••••",
+                style: AppTextStyles.regular(
+                  size: 18,
+                  color: AppColors.secondaryTextColor.withValues(alpha: 0.6),
+                ),
+              ),
+              isObsecure: true,
               controller: passwordController,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your password';
-                }
-                if (value.length < 8) {
-                  return 'Password must be at least 8 characters long';
-                }
-                return null;
-              },
+              validator: (value) => Validators.passwordValidator(value),
             ),
             SizedBox(height: 46.h),
             CustomButtonWidget(
-              hieght: 55,
+              height: 55,
               width: 361,
               borderRadius: 6,
               backgroundColor: AppColors.primaryColor,
@@ -129,7 +97,7 @@ class LogInContainer extends StatelessWidget {
               ),
               onTap: () {
                 if (_formKey.currentState!.validate()) {
-                  Navigator.pushReplacementNamed(context, AppRoutes.appWrapper);
+                  Navigator.pushReplacementNamed(context, AppRoutes.mainNavigation);
                 }
               },
             ),

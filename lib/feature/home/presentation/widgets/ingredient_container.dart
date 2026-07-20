@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recipe_app_quriv/core/styles/app_colors.dart';
-import 'package:recipe_app_quriv/core/styles/app_text_style.dart';
+import 'package:recipe_app_quriv/core/constants/app_colors.dart';
+import 'package:recipe_app_quriv/core/theme/app_text_style.dart';
 
 class IngredientContainer extends StatelessWidget {
   const IngredientContainer({super.key, required this.ingredients});
@@ -9,7 +9,7 @@ class IngredientContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -33,7 +33,7 @@ class IngredientContainer extends StatelessWidget {
             ],
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
             decoration: BoxDecoration(
               color: AppColors.white,
               borderRadius: BorderRadius.circular(8.r),

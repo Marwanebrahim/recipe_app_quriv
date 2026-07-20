@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recipe_app_quriv/core/routing/app_routes.dart';
-import 'package:recipe_app_quriv/core/styles/app_colors.dart';
-import 'package:recipe_app_quriv/core/styles/app_text_style.dart';
-import 'package:recipe_app_quriv/core/widgets/custom_button_widget.dart';
+import 'package:recipe_app_quriv/core/theme/app_text_style.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_bloc.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_state.dart';
+import 'package:recipe_app_quriv/feature/home/presentation/widgets/recipe_card.dart';
 
 class TrendingRecipesWidget extends StatelessWidget {
   const TrendingRecipesWidget({super.key});
@@ -38,59 +36,12 @@ class TrendingRecipesWidget extends StatelessWidget {
                   crossAxisCount: 2,
                   mainAxisSpacing: 16.h,
                   crossAxisSpacing: 16.w,
-                  childAspectRatio: 0.9,
+                  childAspectRatio: 0.85,
                 ),
                 itemCount: state.recipes.length,
                 itemBuilder: (context, index) {
                   final recipe = state.recipes[index];
-                  return Column(
-                    children: [
-                      Expanded(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.network(
-                            recipe.image,
-                            fit: BoxFit.cover,
-                            height: 186.h,
-                            width: 169.w,
-                            errorBuilder: (context, error, stackTrace) {
-                              return const Icon(Icons.error, color: Colors.red);
-                            },
-                          ),
-                        ),
-                      ),
-                      Text(
-                        recipe.name,
-                        style: AppTextStyles.regular(
-                          size: 16,
-                          color: Colors.black,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      CustomButtonWidget(
-                        hieght: 24,
-                        width: 86,
-                        borderRadius: 4,
-                        borderColor: AppColors.primaryColor,
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            AppRoutes.detailsScreen,
-                            arguments: recipe,
-                          );
-                        },
-                        child: Center(
-                          child: Text(
-                            'Read More',
-                            style: AppTextStyles.regular(
-                              size: 12,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
+                  return RecipeCard(recipe: recipe);
                 },
               );
             } else if (state is HomeErrorState) {

@@ -11,10 +11,11 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
-      child: SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0 ),
+      child: SingleChildScrollView(//TODO  
         child: Column(
           children: [
+            //TODO: refresh
             GreetingWidget(),
             SizedBox(height: 32.h),
             SearchBarWidget(),
