@@ -1,3 +1,4 @@
+//! change the file name to be app assets and move it to constants
 class AssetsHelper {
   static const String langingPageImage = "assets/landing-page-image.png";
   static const String noise = "assets/noise.png";

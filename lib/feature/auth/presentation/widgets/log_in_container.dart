@@ -68,7 +68,8 @@ class LogInContainer extends StatelessWidget {
                 }
 
                 return null;
-              },
+              }, //! this should be move to validator file 
+              //! validator file could be at core or helpers
             ),
             SizedBox(height: 18.h),
             Text(
@@ -110,7 +111,7 @@ class LogInContainer extends StatelessWidget {
                   return 'Password must be at least 8 characters long';
                 }
                 return null;
-              },
+              }, //! to validators too
             ),
             SizedBox(height: 46.h),
             CustomButtonWidget(

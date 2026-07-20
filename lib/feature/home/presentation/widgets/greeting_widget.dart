@@ -15,7 +15,7 @@ class GreetingWidget extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text.rich(
+            Text.rich( //? goof catch again
               TextSpan(
                 text: 'Hello, ',
                 style: AppTextStyles.semibold(size: 24, color: Colors.black),

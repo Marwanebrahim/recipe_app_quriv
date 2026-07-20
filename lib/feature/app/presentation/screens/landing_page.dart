@@ -8,14 +8,16 @@ import 'package:recipe_app_quriv/core/widgets/custom_button_widget.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
-
+  //! landing page is differen thing from the main navigation so it won't be at the same foler (app)
+//! the image should has darker color
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
+          //! need Positioned.fill
           Image.asset(AssetsHelper.langingPageImage),
-          Image.asset(AssetsHelper.noise),
+          Image.asset(AssetsHelper.noise),           //? why noise? why not overlay with dark color?
           Center(
             child: Column(
               children: [

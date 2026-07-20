@@ -8,7 +8,10 @@ import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_event.dart'
 import 'package:recipe_app_quriv/feature/home/presentation/screens/home_screen.dart';
 import 'package:recipe_app_quriv/injection_container.dart';
 
-class AppWrapper extends StatefulWidget {
+ //? should not be called as AppWrapper
+ //? AppWrapper is class where you can decide where to go depending on the local configurations you have (if user data exists in local database or not)
+ //! update it to main navigation class
+class AppWrapper extends StatefulWidget { 
   const AppWrapper({super.key});
 
   @override
@@ -48,7 +51,7 @@ class _AppWrapperState extends State<AppWrapper> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: SafeArea(
+      body: SafeArea( //! search for another technique instead of safeArea
         child: Stack(
           children: [
             IndexedStack(

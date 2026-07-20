@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+//! remove it from core folder and put it in lib folder
 class CustomButtonWidget extends StatelessWidget {
   const CustomButtonWidget({
     super.key,
-    required this.hieght,
+    required this.hieght, //* height
     required this.width,
     this.backgroundColor,
     this.gradient,

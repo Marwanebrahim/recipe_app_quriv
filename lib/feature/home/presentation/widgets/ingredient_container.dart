@@ -9,7 +9,7 @@ class IngredientContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h), //! don't use vertical padding
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [

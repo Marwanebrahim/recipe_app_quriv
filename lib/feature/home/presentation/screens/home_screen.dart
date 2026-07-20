@@ -12,7 +12,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
-      child: SingleChildScrollView(
+      child: SingleChildScrollView( //! use CustomScrollView instead so you won't use shrinWrap in the GridView
         child: Column(
           children: [
             GreetingWidget(),

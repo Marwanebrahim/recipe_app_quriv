@@ -1,3 +1,5 @@
+//! move to core/di/
+
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:recipe_app_quriv/core/app-strings/app_strings.dart';

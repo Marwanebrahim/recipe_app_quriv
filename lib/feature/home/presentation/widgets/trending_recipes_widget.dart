@@ -43,12 +43,13 @@ class TrendingRecipesWidget extends StatelessWidget {
                 itemCount: state.recipes.length,
                 itemBuilder: (context, index) {
                   final recipe = state.recipes[index];
-                  return Column(
+
+                  return Column(//! move this to widget and call it recipe card (for better organization) and wrap the whole widget with GestureDetector
                     children: [
                       Expanded(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8.0),
-                          child: Image.network(
+                          child: Image.network( //! use cachedNetworkImage 
                             recipe.image,
                             fit: BoxFit.cover,
                             height: 186.h,

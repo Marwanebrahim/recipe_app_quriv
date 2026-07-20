@@ -26,7 +26,8 @@ class CategoryListWidget extends StatelessWidget {
               current is HomeLoadingState,
           builder: (context, state) {
             if (state is HomeLoadingState) {
-              //TODO: add shimmer effect
+              //TODO: add shimmer effect 
+              //? AI???????
               return const Center(child: CircularProgressIndicator());
             } else if (state is CategorySuccesfulState) {
               return SizedBox(
@@ -52,7 +53,7 @@ class CategoryListWidget extends StatelessWidget {
                               Icons.image_not_supported_outlined,
                               size: 40,
                               color: Colors.black,
-                            ),
+                            ), ///! whyyy????
                           ),
                         ),
                         SizedBox(height: 8.h),

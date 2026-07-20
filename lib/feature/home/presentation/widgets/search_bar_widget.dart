@@ -4,7 +4,7 @@ class SearchBarWidget extends StatelessWidget {
   const SearchBarWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { //! totaly doesn't look like the design
     return TextField(
       decoration: InputDecoration(
         hintText: 'Search for recipes',

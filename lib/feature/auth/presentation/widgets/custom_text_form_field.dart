@@ -11,7 +11,9 @@ class CustomTextFormField extends StatefulWidget {
     required this.controller,
   });
   final Widget hintWidget;
-  final bool isPassword;
+  final bool isPassword; //! use isObsecure instead of isPassword 
+  //* for password isObsecure: isObsecure
+  //*for email isObsecure : false
   final String? Function(String?)? validator;
   final TextEditingController controller;
 
@@ -23,6 +25,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   bool _obscureText = true;
   @override
   Widget build(BuildContext context) {
+    //! move all this customization to theme
+    //! add prefixIcon insstead of put the icon in the hint widget 
+
     return TextFormField(
       controller: widget.controller,
       decoration: InputDecoration(
