@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:recipe_app_quriv/core/constants/api_constants.dart';
+import 'package:recipe_app_quriv/core/helpers/dio_helper.dart';
 import 'package:recipe_app_quriv/feature/home/data/data-source/remote_data_source.dart';
 import 'package:recipe_app_quriv/feature/home/data/repository/home_repository_impl.dart';
 import 'package:recipe_app_quriv/feature/home/domain/repository/home_repository.dart';
@@ -12,13 +12,7 @@ final sl = GetIt.instance;
 
 Future<void> initDependencies() async {
   sl.registerLazySingleton<Dio>(
-    () => Dio(
-      BaseOptions(
-        baseUrl: ApiConstants.baseUrl,
-        connectTimeout: const Duration(seconds: 10),
-        receiveTimeout: const Duration(seconds: 10),
-      ),
-    ),
+    () => DioHelper.getDio(),
   );
   // home features
   sl.registerLazySingleton<RemoteDataSource>(

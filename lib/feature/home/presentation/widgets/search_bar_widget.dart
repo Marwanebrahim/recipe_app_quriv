@@ -9,12 +9,20 @@ class SearchBarWidget extends StatelessWidget {
       decoration: InputDecoration(
         hintText: 'Search for recipes',
         prefixIcon: const Icon(Icons.search),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          borderSide: BorderSide.none,
+        ),
         filled: true,
         fillColor: Colors.white,
         contentPadding: const EdgeInsets.all(16.0),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
+          borderSide: BorderSide.none,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          borderSide: BorderSide.none,
         ),
       ),
     );

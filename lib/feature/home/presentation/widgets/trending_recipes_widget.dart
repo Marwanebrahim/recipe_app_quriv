@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recipe_app_quriv/core/constants/app_colors.dart';
 import 'package:recipe_app_quriv/core/theme/app_text_style.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_bloc.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_state.dart';
@@ -11,14 +12,15 @@ class TrendingRecipesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Trending Recipes',
-          style: AppTextStyles.semibold(size: 24, color: Colors.black),
+    return SliverMainAxisGroup(
+      slivers: [
+        SliverToBoxAdapter(
+          child: Text(
+            'Trending Recipes',
+            style: AppTextStyles.semibold(size: 20, color: AppColors.black),
+          ),
         ),
-        SizedBox(height: 32.h),
+        SliverToBoxAdapter(child: SizedBox(height: 16.h)),
         BlocBuilder<HomeBloc, HomeState>(
           buildWhen: (previous, current) =>
               current is RecipeSuccesfulState ||
@@ -27,27 +29,34 @@ class TrendingRecipesWidget extends StatelessWidget {
           builder: (context, state) {
             if (state is HomeLoadingState) {
               //TODO: add shimmer effect
-              return const Center(child: CircularProgressIndicator());
+              return SliverToBoxAdapter(
+                child: Center(child: const CircularProgressIndicator()),
+              );
             } else if (state is RecipeSuccesfulState) {
-              return GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
+              return SliverGrid(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   mainAxisSpacing: 16.h,
                   crossAxisSpacing: 16.w,
-                  childAspectRatio: 0.85,
+                  childAspectRatio: 0.72,
                 ),
-                itemCount: state.recipes.length,
-                itemBuilder: (context, index) {
-                  final recipe = state.recipes[index];
-                  return RecipeCard(recipe: recipe);
-                },
+                delegate: SliverChildBuilderDelegate(
+                  childCount: state.recipes.length,
+                  (context, index) => RecipeCard(recipe: state.recipes[index]),
+                ),
               );
             } else if (state is HomeErrorState) {
-              return Text(state.message);
+              return SliverToBoxAdapter(
+                child: Text(
+                  state.message,
+                  style: AppTextStyles.regular(
+                    size: 14,
+                    color: AppColors.secondaryTextColor,
+                  ),
+                ),
+              );
             } else {
-              return const SizedBox.shrink();
+              return const SliverToBoxAdapter(child: SizedBox.shrink());
             }
           },
         ),

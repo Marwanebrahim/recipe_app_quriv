@@ -30,10 +30,12 @@ class CategoryListWidget extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             } else if (state is CategorySuccesfulState) {
               return SizedBox(
-                height: 150.h,
+                height: 140.h,
                 child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  physics: const NeverScrollableScrollPhysics(),
+
                   itemCount: state.categories.length,
                   separatorBuilder: (context, index) => SizedBox(width: 16.w),
                   itemBuilder: (context, index) {
