@@ -13,6 +13,10 @@ import 'package:recipe_app_quriv/core/theme/cubit/theme_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializations();
+}
+
+Future<void> initializations() async {
   await ScreenUtil.ensureScreenSize();
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
