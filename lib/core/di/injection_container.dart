@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:recipe_app_quriv/core/app-strings/app_strings.dart';
+import 'package:recipe_app_quriv/core/helpers/dio_helper.dart';
+import 'package:recipe_app_quriv/core/theme/cubit/theme_cubit.dart';
 import 'package:recipe_app_quriv/feature/home/data/data-source/remote_data_source.dart';
 import 'package:recipe_app_quriv/feature/home/data/repository/home_repository_impl.dart';
 import 'package:recipe_app_quriv/feature/home/domain/repository/home_repository.dart';
@@ -11,15 +12,9 @@ import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_bloc.dart';
 final sl = GetIt.instance;
 
 Future<void> initDependencies() async {
-  sl.registerLazySingleton<Dio>(
-    () => Dio(
-      BaseOptions(
-        baseUrl: AppStrings.baseUrl,
-        connectTimeout: const Duration(seconds: 10),
-        receiveTimeout: const Duration(seconds: 10),
-      ),
-    ),
-  );
+  sl.registerLazySingleton<Dio>(() => DioHelper.getDio());
+
+  sl.registerFactory<ThemeCubit>(() => ThemeCubit());
   // home features
   sl.registerLazySingleton<RemoteDataSource>(
     () => RemoteDataSourceImpl(dio: sl()),

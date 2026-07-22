@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recipe_app_quriv/core/helpers/assets_helper.dart';
-import 'package:recipe_app_quriv/core/styles/app_colors.dart';
-import 'package:recipe_app_quriv/core/styles/app_text_style.dart';
+import 'package:recipe_app_quriv/core/constants/app_assets.dart';
+import 'package:recipe_app_quriv/core/helpers/extensions.dart';
 
 class GreetingWidget extends StatelessWidget {
   const GreetingWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
+    final textStyles = context.appTextStyles;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -18,13 +20,12 @@ class GreetingWidget extends StatelessWidget {
             Text.rich(
               TextSpan(
                 text: 'Hello, ',
-                style: AppTextStyles.semibold(size: 24, color: Colors.black),
+                style: textStyles.recipeTitle,
                 children: [
                   TextSpan(
                     text: 'Alex',
-                    style: AppTextStyles.semibold(
-                      size: 24,
-                      color: Colors.orange,
+                    style: textStyles.recipeTitle.copyWith(
+                      color: colors.primary,
                     ),
                   ),
                 ],
@@ -33,13 +34,13 @@ class GreetingWidget extends StatelessWidget {
             SizedBox(height: 4.h),
             Text(
               'What would you like to cook today?',
-              style: AppTextStyles.regular(size: 16, color: AppColors.grey),
+              style: textStyles.bodySmall.copyWith(color: colors.grey),
             ),
           ],
         ),
         const CircleAvatar(
           radius: 30,
-          backgroundImage: AssetImage(AssetsHelper.userAvatar),
+          backgroundImage: AssetImage(AppAssets.userAvatar),
         ),
       ],
     );

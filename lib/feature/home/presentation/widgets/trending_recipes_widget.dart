@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recipe_app_quriv/core/routing/app_routes.dart';
-import 'package:recipe_app_quriv/core/styles/app_colors.dart';
-import 'package:recipe_app_quriv/core/styles/app_text_style.dart';
-import 'package:recipe_app_quriv/core/widgets/custom_button_widget.dart';
+import 'package:recipe_app_quriv/core/helpers/extensions.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_bloc.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_state.dart';
+import 'package:recipe_app_quriv/feature/home/presentation/widgets/recipe_card.dart';
 
 class TrendingRecipesWidget extends StatelessWidget {
   const TrendingRecipesWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Trending Recipes',
-          style: AppTextStyles.semibold(size: 24, color: Colors.black),
+    final colors = context.appColors;
+    final textStyles = context.appTextStyles;
+
+    return SliverMainAxisGroup(
+      slivers: [
+        SliverToBoxAdapter(
+          child: Text('Trending Recipes', style: textStyles.sectionTitle),
         ),
-        SizedBox(height: 32.h),
+        SliverToBoxAdapter(child: SizedBox(height: 16.h)),
         BlocBuilder<HomeBloc, HomeState>(
           buildWhen: (previous, current) =>
               current is RecipeSuccesfulState ||
@@ -29,74 +28,36 @@ class TrendingRecipesWidget extends StatelessWidget {
           builder: (context, state) {
             if (state is HomeLoadingState) {
               //TODO: add shimmer effect
-              return const Center(child: CircularProgressIndicator());
+              return SliverToBoxAdapter(
+                child: Center(
+                  child: CircularProgressIndicator(color: colors.primary),
+                ),
+              );
             } else if (state is RecipeSuccesfulState) {
-              return GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
+              return SliverGrid(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   mainAxisSpacing: 16.h,
                   crossAxisSpacing: 16.w,
-                  childAspectRatio: 0.9,
+                  childAspectRatio: 0.72,
                 ),
-                itemCount: state.recipes.length,
-                itemBuilder: (context, index) {
-                  final recipe = state.recipes[index];
-                  return Column(
-                    children: [
-                      Expanded(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.network(
-                            recipe.image,
-                            fit: BoxFit.cover,
-                            height: 186.h,
-                            width: 169.w,
-                            errorBuilder: (context, error, stackTrace) {
-                              return const Icon(Icons.error, color: Colors.red);
-                            },
-                          ),
-                        ),
-                      ),
-                      Text(
-                        recipe.name,
-                        style: AppTextStyles.regular(
-                          size: 16,
-                          color: Colors.black,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      CustomButtonWidget(
-                        hieght: 24,
-                        width: 86,
-                        borderRadius: 4,
-                        borderColor: AppColors.primaryColor,
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            AppRoutes.detailsScreen,
-                            arguments: recipe,
-                          );
-                        },
-                        child: Center(
-                          child: Text(
-                            'Read More',
-                            style: AppTextStyles.regular(
-                              size: 12,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                },
+                delegate: SliverChildBuilderDelegate(
+                  childCount: state.recipes.length,
+                  (context, index) => RecipeCard(recipe: state.recipes[index]),
+                ),
               );
             } else if (state is HomeErrorState) {
-              return Text(state.message);
+              return SliverToBoxAdapter(
+                child: Text(
+                  state.message,
+                  style: textStyles.recipeName.copyWith(
+                    fontWeight: FontWeight.normal,
+                    color: colors.text,
+                  ),
+                ),
+              );
             } else {
-              return const SizedBox.shrink();
+              return const SliverToBoxAdapter(child: SizedBox.shrink());
             }
           },
         ),

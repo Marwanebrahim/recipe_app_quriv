@@ -1,10 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recipe_app_quriv/core/helpers/extensions.dart';
+import 'package:recipe_app_quriv/core/helpers/validators.dart';
 import 'package:recipe_app_quriv/core/routing/app_routes.dart';
-import 'package:recipe_app_quriv/core/styles/app_colors.dart';
-import 'package:recipe_app_quriv/core/styles/app_text_style.dart';
-import 'package:recipe_app_quriv/core/widgets/custom_button_widget.dart';
+import 'package:recipe_app_quriv/shared/widgets/custom_button_widget.dart';
 import 'package:recipe_app_quriv/feature/auth/presentation/widgets/custom_text_form_field.dart';
 
 class RegisterContainer extends StatefulWidget {
@@ -15,6 +15,7 @@ class RegisterContainer extends StatefulWidget {
     required this.passwordController,
     required this.formKey,
   });
+
   final TextEditingController nameController;
   final TextEditingController emailController;
   final TextEditingController passwordController;
@@ -26,156 +27,87 @@ class RegisterContainer extends StatefulWidget {
 
 class _RegisterContainerState extends State<RegisterContainer> {
   bool _termsAccepted = false;
+
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
+    final textStyles = context.appTextStyles;
+
     return Form(
       key: widget.formKey,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Name",
-              style: AppTextStyles.bold(
-                size: 18,
-                color: AppColors.black,
-                font: AppFont.inter,
-              ),
-            ),
+            Text("Name", style: textStyles.formLabel),
+
             SizedBox(height: 8.h),
             CustomTextFormField(
-              hintWidget: Row(
-                spacing: 6.w,
-                children: [
-                  Icon(
-                    Icons.person_outline_outlined,
-                    size: 24.w,
-                    color: AppColors.primaryColor,
-                  ),
-                  Text(
-                    "Name",
-                    style: AppTextStyles.regular(
-                      size: 18,
-                      color: AppColors.secondaryTextColor.withValues(
-                        alpha: 0.6,
-                      ),
-                    ),
-                  ),
-                ],
+              prefixIcon: Icon(
+                Icons.person_outline_outlined,
+                size: 24.w,
+                color: colors.primary,
               ),
-              isPassword: false,
+              hintWidget: Text(
+                "Name",
+                style: textStyles.bodyLarge.copyWith(
+                  color: colors.text.withValues(alpha: 0.6),
+                ),
+              ),
+              isObsecure: false,
               controller: widget.nameController,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Please enter your name";
-                }
-                if (value.length < 6) {
-                  return "Name must be at least 6 characters";
-                }
+              validator: (value) => Validators.nameValidator(value),
+            ),
 
-                return null;
-              },
-            ),
             SizedBox(height: 18.h),
-            Text(
-              "EMAIL",
-              style: AppTextStyles.bold(
-                size: 18,
-                color: AppColors.black,
-                font: AppFont.inter,
-              ),
-            ),
+
+            Text("EMAIL", style: textStyles.formLabel),
             SizedBox(height: 8.h),
             CustomTextFormField(
-              hintWidget: Row(
-                spacing: 6.w,
-                children: [
-                  Icon(
-                    Icons.email_outlined,
-                    size: 24.w,
-                    color: AppColors.primaryColor,
-                  ),
-                  Text(
-                    "email@gmail.com",
-                    style: AppTextStyles.regular(
-                      size: 18,
-                      color: AppColors.secondaryTextColor.withValues(
-                        alpha: 0.6,
-                      ),
-                    ),
-                  ),
-                ],
+              prefixIcon: Icon(
+                Icons.email_outlined,
+                size: 24.w,
+                color: colors.primary,
               ),
-              isPassword: false,
+              hintWidget: Text(
+                "email@gmail.com",
+                style: textStyles.bodyLarge.copyWith(
+                  color: colors.text.withValues(alpha: 0.6),
+                ),
+              ),
+              isObsecure: false,
               controller: widget.emailController,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your email';
-                }
-                if (!RegExp(
-                  r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                ).hasMatch(value)) {
-                  return 'Please enter a valid email address';
-                }
-
-                return null;
-              },
+              validator: (value) => Validators.emailValidator(value),
             ),
             SizedBox(height: 18.h),
-            Text(
-              "PASSWORD",
-              style: AppTextStyles.bold(
-                size: 18,
-                color: AppColors.black,
-                font: AppFont.inter,
-              ),
-            ),
+            Text("PASSWORD", style: textStyles.formLabel),
+
             SizedBox(height: 8.h),
             CustomTextFormField(
-              hintWidget: Row(
-                spacing: 6.w,
-                children: [
-                  Icon(
-                    Icons.lock_outline,
-                    size: 24.w,
-                    color: AppColors.primaryColor,
-                  ),
-                  Text(
-                    "••••••••",
-                    style: AppTextStyles.regular(
-                      size: 18,
-                      color: AppColors.secondaryTextColor.withValues(
-                        alpha: 0.6,
-                      ),
-                    ),
-                  ),
-                ],
+              prefixIcon: Icon(
+                Icons.lock_outline,
+                size: 24.w,
+                color: colors.primary,
               ),
-              isPassword: true,
+              hintWidget: Text(
+                "••••••••",
+                style: textStyles.bodyLarge.copyWith(
+                  color: colors.text.withValues(alpha: 0.6),
+                ),
+              ),
+              isObsecure: true,
               controller: widget.passwordController,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter your password';
-                }
-                if (value.length < 8) {
-                  return 'Password must be at least 8 characters long';
-                }
-                return null;
-              },
+              validator: (value) => Validators.passwordValidator(value),
             ),
             SizedBox(height: 18.h),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Checkbox(
                   shape: CircleBorder(
-                    side: BorderSide(
-                      color: AppColors.primaryColor,
-                      width: 1.5.w,
-                    ),
+                    side: BorderSide(color: colors.primary, width: 1.5.w),
                   ),
-                  activeColor: AppColors.primaryColor,
+                  activeColor: colors.primary,
                   value: _termsAccepted,
                   onChanged: (value) {
                     setState(() {
@@ -185,54 +117,47 @@ class _RegisterContainerState extends State<RegisterContainer> {
                 ),
                 Text(
                   "I agree to the Terms & Conditions",
-                  style: AppTextStyles.semibold(
-                    size: 16,
-                    color: AppColors.black.withValues(alpha: 0.6),
-                    font: AppFont.inter,
+                  style: textStyles.bodyMedium.copyWith(
+                    color: colors.black.withValues(alpha: 0.6),
                   ),
                 ),
               ],
             ),
             SizedBox(height: 46.h),
             CustomButtonWidget(
-              hieght: 55,
+              height: 55,
               width: 361,
               borderRadius: 6,
-              backgroundColor: AppColors.primaryColor,
-              child: Center(
-                child: Text(
-                  "LOG IN",
-                  style: AppTextStyles.semibold(
-                    size: 22,
-                    color: AppColors.white,
-                  ),
-                ),
-              ),
+              backgroundColor: colors.primary,
               onTap: () {
                 if (widget.formKey.currentState!.validate() && _termsAccepted) {
-                  Navigator.pushReplacementNamed(context, AppRoutes.appWrapper);
+                  Navigator.pushReplacementNamed(
+                    context,
+                    AppRoutes.mainNavigation,
+                  );
                 }
               },
+              child: Center(
+                child: Text('LOG IN', style: textStyles.buttonLarge),
+              ),
             ),
+
             SizedBox(height: 20.h),
+
             Center(
               child: Text.rich(
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: "Already have an account? ",
-                      style: AppTextStyles.regular(
-                        size: 16,
-                        color: AppColors.black.withValues(alpha: 0.6),
-                        font: AppFont.inter,
+                      text: 'Already have an account? ',
+                      style: textStyles.bodySmall.copyWith(
+                        color: colors.black.withValues(alpha: 0.6),
                       ),
                     ),
                     TextSpan(
-                      text: "Log In",
-                      style: AppTextStyles.bold(
-                        size: 16,
-                        color: AppColors.primaryColor,
-                        font: AppFont.inter,
+                      text: 'Log In',
+                      style: textStyles.bodyMedium.copyWith(
+                        color: colors.primary,
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
