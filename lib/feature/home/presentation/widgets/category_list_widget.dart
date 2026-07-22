@@ -19,7 +19,7 @@ class CategoryListWidget extends StatelessWidget {
       children: [
         Text(
           'Categories',
-          style: textStyles.sectionTitle.copyWith(color: colors.black),
+          style: textStyles.sectionTitle,
         ),
 
         SizedBox(height: 32.h),

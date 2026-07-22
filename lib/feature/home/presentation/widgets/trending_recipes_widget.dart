@@ -17,7 +17,7 @@ class TrendingRecipesWidget extends StatelessWidget {
     return SliverMainAxisGroup(
       slivers: [
         SliverToBoxAdapter(
-          child: Text('Trending Recipes', style: textStyles.bodyLarge),
+          child: Text('Trending Recipes', style: textStyles.sectionTitle),
         ),
         SliverToBoxAdapter(child: SizedBox(height: 16.h)),
         BlocBuilder<HomeBloc, HomeState>(

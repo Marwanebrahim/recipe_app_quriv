@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:recipe_app_quriv/core/constants/app_colors.dart';
 
@@ -44,10 +43,10 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
   static TextStyle _getFont(AppFont font) {
     switch (font) {
       case AppFont.dmSerifDisplay:
-        return GoogleFonts.dmSerifDisplay();
+        return TextStyle(fontFamily: "DMSerifDisplay");
 
       case AppFont.inter:
-        return GoogleFonts.inter();
+        return TextStyle(fontFamily: "Inter");
     }
   }
 
@@ -83,7 +82,7 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
 
       screenTitle: _textStyle(
         fontSize: 28,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w600,
         font: AppFont.inter,
         color: primaryText,
       ),
@@ -118,7 +117,7 @@ class AppTextStyles extends ThemeExtension<AppTextStyles> {
 
       formLabel: _textStyle(
         fontSize: 18,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w600,
         font: AppFont.inter,
         color: primaryText,
       ),
