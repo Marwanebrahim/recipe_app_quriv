@@ -1,17 +1,20 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recipe_app_quriv/core/helpers/extensions.dart';
 import 'package:recipe_app_quriv/core/routing/app_routes.dart';
-import 'package:recipe_app_quriv/core/constants/app_colors.dart';
-import 'package:recipe_app_quriv/core/theme/app_text_style.dart';
 import 'package:recipe_app_quriv/feature/home/domain/entity/recipe_entity.dart';
 
 class RecipeCard extends StatelessWidget {
   const RecipeCard({super.key, required this.recipe});
+
   final RecipeEntity recipe;
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
+    final textStyles = context.appTextStyles;
+
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(
@@ -22,11 +25,11 @@ class RecipeCard extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: colors.white,
           borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
-              color: AppColors.black.withValues(alpha: 0.06),
+              color: colors.black.withValues(alpha: 0.06),
               blurRadius: 16,
               offset: const Offset(0, 6),
             ),
@@ -43,35 +46,38 @@ class RecipeCard extends StatelessWidget {
                     child: CachedNetworkImage(
                       imageUrl: recipe.image,
                       fit: BoxFit.cover,
-                      placeholder: (context, url) =>
-                          const Center(child: CircularProgressIndicator()),
+                      placeholder: (context, url) => Center(
+                        child: CircularProgressIndicator(color: colors.primary),
+                      ),
                       errorWidget: (context, url, error) =>
-                          const Icon(Icons.error, color: Colors.red),
+                          Icon(Icons.error, color: colors.error),
                     ),
                   ),
                   Positioned(
                     top: 8.h,
                     right: 8.w,
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 6.w,
+                        vertical: 3.h,
+                      ),
                       decoration: BoxDecoration(
-                        color: AppColors.black.withValues(alpha: 0.55),
-                        borderRadius: BorderRadius.circular(20),
+                        color: colors.black.withValues(alpha: 0.55),
+                        borderRadius: BorderRadius.circular(20.r),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
-                        spacing: 2,
+                        spacing: 2.w,
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.star_rounded,
                             color: Colors.amber,
-                            size: 14,
+                            size: 14.w,
                           ),
                           Text(
                             recipe.rating.toStringAsFixed(1),
-                            style: AppTextStyles.semibold(
-                              size: 11,
-                              color: AppColors.white,
+                            style: textStyles.rating.copyWith(
+                              color: colors.white,
                             ),
                           ),
                         ],
@@ -90,25 +96,21 @@ class RecipeCard extends StatelessWidget {
                     recipe.name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTextStyles.semibold(
-                      size: 14,
-                      color: AppColors.black,
-                    ),
+                    style: textStyles.recipeName,
                   ),
                   SizedBox(height: 8.h),
                   Row(
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.arrow_forward_rounded,
-                        size: 14,
-                        color: AppColors.primaryColor,
+                        size: 14.w,
+                        color: colors.primary,
                       ),
                       SizedBox(width: 4.w),
                       Text(
                         'Read More',
-                        style: AppTextStyles.semibold(
-                          size: 12,
-                          color: AppColors.primaryColor,
+                        style: textStyles.readMore.copyWith(
+                          color: colors.primary,
                         ),
                       ),
                     ],

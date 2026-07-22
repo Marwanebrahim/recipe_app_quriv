@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recipe_app_quriv/core/constants/app_colors.dart';
-import 'package:recipe_app_quriv/core/theme/app_text_style.dart';
+import 'package:recipe_app_quriv/core/helpers/extensions.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_bloc.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_state.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/widgets/recipe_card.dart';
@@ -12,13 +11,13 @@ class TrendingRecipesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
+    final textStyles = context.appTextStyles;
+
     return SliverMainAxisGroup(
       slivers: [
         SliverToBoxAdapter(
-          child: Text(
-            'Trending Recipes',
-            style: AppTextStyles.semibold(size: 20, color: AppColors.black),
-          ),
+          child: Text('Trending Recipes', style: textStyles.bodyLarge),
         ),
         SliverToBoxAdapter(child: SizedBox(height: 16.h)),
         BlocBuilder<HomeBloc, HomeState>(
@@ -30,7 +29,9 @@ class TrendingRecipesWidget extends StatelessWidget {
             if (state is HomeLoadingState) {
               //TODO: add shimmer effect
               return SliverToBoxAdapter(
-                child: Center(child: const CircularProgressIndicator()),
+                child: Center(
+                  child: CircularProgressIndicator(color: colors.primary),
+                ),
               );
             } else if (state is RecipeSuccesfulState) {
               return SliverGrid(
@@ -49,9 +50,9 @@ class TrendingRecipesWidget extends StatelessWidget {
               return SliverToBoxAdapter(
                 child: Text(
                   state.message,
-                  style: AppTextStyles.regular(
-                    size: 14,
-                    color: AppColors.secondaryTextColor,
+                  style: textStyles.recipeName.copyWith(
+                    fontWeight: FontWeight.normal,
+                    color: colors.text,
                   ),
                 ),
               );

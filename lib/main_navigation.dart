@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:liquid_glass_nav/liquid_glass_nav.dart';
-import 'package:recipe_app_quriv/core/constants/app_colors.dart';
+import 'package:recipe_app_quriv/core/helpers/extensions.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_bloc.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_event.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/screens/home_screen.dart';
@@ -17,15 +17,14 @@ class MainNavigation extends StatefulWidget {
 
 class _MainNavigationState extends State<MainNavigation> {
   int _currentIndex = 0;
-  final _items = [
-    const LiquidGlassNavItem(icon: Icons.home_filled, label: 'Home'),
-    const LiquidGlassNavItem(icon: Icons.list_alt_outlined, label: 'List'),
-    const LiquidGlassNavItem(
-      icon: Icons.receipt_long_outlined,
-      label: 'Receipt',
-    ),
-    const LiquidGlassNavItem(icon: Icons.person, label: 'profile'),
+
+  final _items = const [
+    LiquidGlassNavItem(icon: Icons.home_filled, label: 'Home'),
+    LiquidGlassNavItem(icon: Icons.list_alt_outlined, label: 'List'),
+    LiquidGlassNavItem(icon: Icons.receipt_long_outlined, label: 'Receipt'),
+    LiquidGlassNavItem(icon: Icons.person, label: 'Profile'),
   ];
+
   List<Widget> get _screens => [
     BlocProvider(
       create: (_) => sl<HomeBloc>()
@@ -33,9 +32,9 @@ class _MainNavigationState extends State<MainNavigation> {
         ..add(GetAllRecipesEvent()),
       child: const HomeScreen(),
     ),
-    const Center(child: Text("second Screen")),
-    const Center(child: Text("third Screen")),
-    const Center(child: Text("fourth Screen")),
+    const Center(child: Text('Second Screen')),
+    const Center(child: Text('Third Screen')),
+    const Center(child: Text('Fourth Screen')),
   ];
 
   void onTap(int index) {
@@ -46,6 +45,8 @@ class _MainNavigationState extends State<MainNavigation> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -60,9 +61,9 @@ class _MainNavigationState extends State<MainNavigation> {
               items: _items,
               currentIndex: _currentIndex,
               onTap: onTap,
-              backgroundColor: AppColors.white,
-              activeColor: AppColors.primaryColor,
-              inactiveColor: AppColors.black,
+              backgroundColor: colors.white,
+              activeColor: colors.primary,
+              inactiveColor: colors.black,
               shadowBlurRadius: 32.r,
               borderRadius: 24.r,
               borderWidth: 1.5,

@@ -1,10 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recipe_app_quriv/core/helpers/extensions.dart';
 import 'package:recipe_app_quriv/core/helpers/validators.dart';
 import 'package:recipe_app_quriv/core/routing/app_routes.dart';
-import 'package:recipe_app_quriv/core/constants/app_colors.dart';
-import 'package:recipe_app_quriv/core/theme/app_text_style.dart';
 import 'package:recipe_app_quriv/core/widgets/custom_button_widget.dart';
 import 'package:recipe_app_quriv/feature/auth/presentation/widgets/custom_text_form_field.dart';
 
@@ -15,11 +14,16 @@ class LogInContainer extends StatelessWidget {
     required this.passwordController,
     required GlobalKey<FormState> formKey,
   }) : _formKey = formKey;
+
   final TextEditingController emailController;
   final TextEditingController passwordController;
   final GlobalKey<FormState> _formKey;
+
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
+    final textStyles = context.appTextStyles;
+
     return Form(
       key: _formKey,
       child: Padding(
@@ -27,26 +31,18 @@ class LogInContainer extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "EMAIL",
-              style: AppTextStyles.bold(
-                size: 18,
-                color: AppColors.black,
-                font: AppFont.inter,
-              ),
-            ),
+            Text('EMAIL', style: textStyles.formLabel),
             SizedBox(height: 8.h),
             CustomTextFormField(
               prefixIcon: Icon(
                 Icons.email_outlined,
                 size: 24.w,
-                color: AppColors.primaryColor,
+                color: colors.primary,
               ),
               hintWidget: Text(
                 "email@gmail.com",
-                style: AppTextStyles.regular(
-                  size: 18,
-                  color: AppColors.secondaryTextColor.withValues(alpha: 0.6),
+                style: textStyles.bodyLarge.copyWith(
+                  color: colors.text.withValues(alpha: 0.6),
                 ),
               ),
               isObsecure: false,
@@ -54,26 +50,18 @@ class LogInContainer extends StatelessWidget {
               validator: (value) => Validators.emailValidator(value),
             ),
             SizedBox(height: 18.h),
-            Text(
-              "PASSWORD",
-              style: AppTextStyles.bold(
-                size: 18,
-                color: AppColors.black,
-                font: AppFont.inter,
-              ),
-            ),
+            Text("PASSWORD", style: textStyles.formLabel),
             SizedBox(height: 8.h),
             CustomTextFormField(
               prefixIcon: Icon(
                 Icons.lock_outline,
                 size: 24.w,
-                color: AppColors.primaryColor,
+                color: colors.primary,
               ),
               hintWidget: Text(
                 "••••••••",
-                style: AppTextStyles.regular(
-                  size: 18,
-                  color: AppColors.secondaryTextColor.withValues(alpha: 0.6),
+                style: textStyles.bodyLarge.copyWith(
+                  color: colors.text.withValues(alpha: 0.6),
                 ),
               ),
               isObsecure: true,
@@ -85,29 +73,25 @@ class LogInContainer extends StatelessWidget {
               height: 55,
               width: 361,
               borderRadius: 6,
-              backgroundColor: AppColors.primaryColor,
-              child: Center(
-                child: Text(
-                  "LOG IN",
-                  style: AppTextStyles.semibold(
-                    size: 22,
-                    color: AppColors.white,
-                  ),
-                ),
-              ),
+              backgroundColor: colors.primary,
               onTap: () {
                 if (_formKey.currentState!.validate()) {
-                  Navigator.pushReplacementNamed(context, AppRoutes.mainNavigation);
+                  Navigator.pushReplacementNamed(
+                    context,
+                    AppRoutes.mainNavigation,
+                  );
                 }
               },
+              child: Center(
+                child: Text('LOG IN', style: textStyles.buttonLarge),
+              ),
             ),
+
             SizedBox(height: 10.h),
+
             Align(
               alignment: Alignment.centerRight,
-              child: Text(
-                "Forgot Password ?",
-                style: AppTextStyles.semibold(size: 16, color: AppColors.black),
-              ),
+              child: Text('Forgot Password ?', style: textStyles.bodyMedium),
             ),
             SizedBox(height: 34.h),
             Center(
@@ -116,17 +100,11 @@ class LogInContainer extends StatelessWidget {
                   children: [
                     TextSpan(
                       text: "Don't have an account ? ",
-                      style: AppTextStyles.semibold(
-                        size: 18,
-                        color: AppColors.black,
-                      ),
+                      style: textStyles.bodyLarge,
                     ),
                     TextSpan(
-                      text: "Sign Up",
-                      style: AppTextStyles.semibold(
-                        size: 18,
-                        color: AppColors.primaryColor,
-                      ),
+                      text: 'Sign Up',
+                      style: textStyles.bodyLarge,
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           Navigator.pushReplacementNamed(

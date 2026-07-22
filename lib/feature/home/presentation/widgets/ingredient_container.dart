@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recipe_app_quriv/core/constants/app_colors.dart';
-import 'package:recipe_app_quriv/core/theme/app_text_style.dart';
+import 'package:recipe_app_quriv/core/helpers/extensions.dart';
 
 class IngredientContainer extends StatelessWidget {
   const IngredientContainer({super.key, required this.ingredients});
+
   final List<String> ingredients;
+
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
+    final textStyles = context.appTextStyles;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Column(
@@ -17,17 +21,15 @@ class IngredientContainer extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Ingredients",
-                style: AppTextStyles.semibold(
-                  size: 24,
-                  color: AppColors.secondaryTextColor,
+                'Ingredients',
+                style: textStyles.recipeTitle.copyWith(
+                  color: colors.text,
                 ),
               ),
               Text(
-                "${ingredients.length} items",
-                style: AppTextStyles.regular(
-                  size: 16,
-                  color: AppColors.secondaryTextColor,
+                '${ingredients.length} items',
+                style: textStyles.bodySmall.copyWith(
+                  color: colors.text,
                 ),
               ),
             ],
@@ -35,7 +37,7 @@ class IngredientContainer extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             decoration: BoxDecoration(
-              color: AppColors.white,
+              color: colors.white,
               borderRadius: BorderRadius.circular(8.r),
             ),
             child: Column(
@@ -46,20 +48,8 @@ class IngredientContainer extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          ingredients[index],
-                          style: AppTextStyles.semibold(
-                            size: 16,
-                            color: AppColors.black,
-                          ),
-                        ),
-                        Text(
-                          "1 Cup",
-                          style: AppTextStyles.regular(
-                            size: 16,
-                            color: AppColors.black,
-                          ),
-                        ),
+                        Text(ingredients[index], style: textStyles.bodyMedium),
+                        Text('1 Cup', style: textStyles.bodySmall),
                       ],
                     ),
                     SizedBox(height: 16.h),

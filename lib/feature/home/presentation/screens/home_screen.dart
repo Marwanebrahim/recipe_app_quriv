@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recipe_app_quriv/core/constants/app_colors.dart';
+import 'package:recipe_app_quriv/core/helpers/extensions.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_bloc.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_event.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/widgets/category_list_widget.dart';
@@ -15,9 +15,10 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final colors = context.appColors;
 
     return RefreshIndicator(
-      color: AppColors.primaryColor,
+      color: colors.primary,
       onRefresh: () async => context.read<HomeBloc>()
         ..add(GetAllCategoriesEvent())
         ..add(GetAllRecipesEvent()),
@@ -33,7 +34,7 @@ class HomeScreen extends StatelessWidget {
             automaticallyImplyLeading: false,
             backgroundColor: theme.scaffoldBackgroundColor,
             expandedHeight: 150.h,
-            title: GreetingWidget(),
+            title: const GreetingWidget(),
             flexibleSpace: FlexibleSpaceBar(
               background: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w),

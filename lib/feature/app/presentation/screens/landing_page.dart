@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recipe_app_quriv/core/constants/app_assets.dart';
+import 'package:recipe_app_quriv/core/helpers/extensions.dart';
 import 'package:recipe_app_quriv/core/routing/app_routes.dart';
-import 'package:recipe_app_quriv/core/constants/app_colors.dart';
-import 'package:recipe_app_quriv/core/theme/app_text_style.dart';
 import 'package:recipe_app_quriv/core/widgets/custom_button_widget.dart';
 
 class LandingPage extends StatelessWidget {
@@ -11,6 +10,9 @@ class LandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.appColors;
+    final textStyles = context.appTextStyles;
+
     return Scaffold(
       body: Stack(
         children: [
@@ -19,39 +21,32 @@ class LandingPage extends StatelessWidget {
           Center(
             child: Column(
               children: [
-                Spacer(flex: 3),
+                const Spacer(flex: 3),
                 Text(
                   "RECI",
-                  style: AppTextStyles.regular(
-                    size: 76.5,
-                    color: AppColors.lightBackgroundColor,
-                    font: AppFont.dmSerifDisplay,
-                  ).copyWith(height: 1),
+                  style: textStyles.logo.copyWith(
+                    color: colors.lightBackground,
+                    height: 1,
+                  ),
                 ),
                 Text(
-                  "cook it yourself",
-                  style: AppTextStyles.regular(
-                    size: 16,
-                    color: AppColors.lightBackgroundColor,
-                  ).copyWith(height: 1),
+                  'cook it yourself',
+                  style: textStyles.bodySmall.copyWith(
+                    color: colors.lightBackground,
+                    height: 1,
+                  ),
                 ),
-                Spacer(flex: 2),
+                const Spacer(flex: 2),
                 CustomButtonWidget(
                   height: 55,
                   width: 361,
                   borderRadius: 6,
-                  backgroundColor: AppColors.primaryColor,
+                  backgroundColor: colors.primary,
                   onTap: () {
                     Navigator.pushReplacementNamed(context, AppRoutes.register);
                   },
                   child: Center(
-                    child: Text(
-                      "REGISTER",
-                      style: AppTextStyles.semibold(
-                        size: 24,
-                        color: AppColors.white,
-                      ),
-                    ),
+                    child: Text('REGISTER', style: textStyles.buttonLarge),
                   ),
                 ),
                 SizedBox(height: 43.h),
@@ -59,21 +54,15 @@ class LandingPage extends StatelessWidget {
                   height: 55,
                   width: 361,
                   borderRadius: 6,
-                  borderColor: AppColors.primaryColor,
+                  borderColor: colors.primary,
                   onTap: () {
                     Navigator.pushReplacementNamed(context, AppRoutes.login);
                   },
                   child: Center(
-                    child: Text(
-                      "LOG IN",
-                      style: AppTextStyles.semibold(
-                        size: 24,
-                        color: AppColors.white,
-                      ),
-                    ),
+                    child: Text('LOG IN', style: textStyles.buttonLarge),
                   ),
                 ),
-                Spacer(flex: 1),
+                const Spacer(),
               ],
             ),
           ),
