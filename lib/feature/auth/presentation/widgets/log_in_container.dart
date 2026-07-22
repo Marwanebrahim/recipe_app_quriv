@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recipe_app_quriv/core/helpers/extensions.dart';
 import 'package:recipe_app_quriv/core/helpers/validators.dart';
 import 'package:recipe_app_quriv/core/routing/app_routes.dart';
-import 'package:recipe_app_quriv/core/widgets/custom_button_widget.dart';
+import 'package:recipe_app_quriv/shared/widgets/custom_button_widget.dart';
 import 'package:recipe_app_quriv/feature/auth/presentation/widgets/custom_text_form_field.dart';
 
 class LogInContainer extends StatelessWidget {

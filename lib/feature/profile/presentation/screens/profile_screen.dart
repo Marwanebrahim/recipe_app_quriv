@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_app_quriv/core/theme/cubit/theme_cubit.dart';
-import 'package:recipe_app_quriv/core/widgets/custom_button_widget.dart';
+import 'package:recipe_app_quriv/shared/widgets/custom_button_widget.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
