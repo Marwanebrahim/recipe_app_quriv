@@ -7,6 +7,7 @@ import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_bloc.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_event.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/screens/home_screen.dart';
 import 'package:recipe_app_quriv/core/di/injection_container.dart';
+import 'package:recipe_app_quriv/feature/profile/presentation/screens/profile_screen.dart';
 
 class MainNavigation extends StatefulWidget {
   const MainNavigation({super.key});
@@ -34,7 +35,7 @@ class _MainNavigationState extends State<MainNavigation> {
     ),
     const Center(child: Text('Second Screen')),
     const Center(child: Text('Third Screen')),
-    const Center(child: Text('Fourth Screen')),
+    ProfileScreen(),
   ];
 
   void onTap(int index) {

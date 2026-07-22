@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe_app_quriv/core/constants/app_palette.dart';
 
 class AppColors extends ThemeExtension<AppColors> {
   final Color background;
@@ -22,25 +23,25 @@ class AppColors extends ThemeExtension<AppColors> {
   });
 
   static const light = AppColors(
-    background: Color(0xFFEAEAEA),
-    lightBackground: Color(0xFFF3F3F3),
-    white: Colors.white,
-    black: Colors.black,
-    primary: Color(0xFFF26419),
-    text: Color(0xFF434343),
-    grey: Color(0xFF9F9F9F),
-    error: Colors.red,
+    background: AppPaletteLightTheme.background,
+    lightBackground: AppPaletteLightTheme.lightBackground,
+    white: AppPaletteLightTheme.white,
+    black: AppPaletteLightTheme.black,
+    primary: AppPaletteLightTheme.primary,
+    text: AppPaletteLightTheme.text,
+    grey: AppPaletteLightTheme.grey,
+    error: AppPaletteLightTheme.error,
   );
 
   static const dark = AppColors(
-    background: Color(0xFF121212),
-    lightBackground: Color(0xFF2A2A2A),
-    white: Color(0xFF1E1E1E),
-    black: Colors.white,
-    primary: Color(0xFFF26419),
-    text: Color(0xFFB0B0B0),
-    grey: Color(0xFFB0B0B0),
-    error: Colors.red,
+    background: AppPaletteDarkTheme.background,
+    lightBackground: AppPaletteDarkTheme.lightBackground,
+    white: AppPaletteDarkTheme.white,
+    black: AppPaletteDarkTheme.black,
+    primary: AppPaletteDarkTheme.primary,
+    text: AppPaletteDarkTheme.text,
+    grey: AppPaletteDarkTheme.grey,
+    error: AppPaletteDarkTheme.error,
   );
 
   @override

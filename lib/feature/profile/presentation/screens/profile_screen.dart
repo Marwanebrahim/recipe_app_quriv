@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recipe_app_quriv/core/helpers/extensions.dart';
 import 'package:recipe_app_quriv/core/theme/cubit/theme_cubit.dart';
 import 'package:recipe_app_quriv/shared/widgets/custom_button_widget.dart';
 
@@ -14,6 +15,7 @@ class ProfileScreen extends StatelessWidget {
           height: 56,
           width: 300,
           borderRadius: 10,
+          backgroundColor: context.appColors.primary,
           onTap: () {
             context.read<ThemeCubit>().updateTheme(
               Theme.of(context).brightness == Brightness.dark
@@ -21,7 +23,7 @@ class ProfileScreen extends StatelessWidget {
                   : ThemeMode.dark,
             );
           },
-          child: const Text('Toggle theme'),
+          child: Center(child: const Text('Toggle theme')),
         ),
       ),
     );
