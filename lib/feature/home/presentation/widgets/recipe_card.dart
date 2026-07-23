@@ -36,86 +36,79 @@ class RecipeCard extends StatelessWidget {
           ],
         ),
         clipBehavior: Clip.antiAlias,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Stack(
           children: [
-            Expanded(
-              child: Stack(
-                children: [
-                  Positioned.fill(
-                    child: CachedNetworkImage(
-                      imageUrl: recipe.image,
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => Center(
-                        child: CircularProgressIndicator(color: colors.primary),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          Icon(Icons.error, color: colors.error),
+            Column(
+              // mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: CachedNetworkImage(
+                    imageUrl: recipe.image,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => Center(
+                      child: CircularProgressIndicator(color: colors.primary),
                     ),
+                    errorWidget: (context, url, error) =>
+                        Icon(Icons.error, color: colors.error),
                   ),
-                  Positioned(
-                    top: 8.h,
-                    right: 8.w,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 6.w,
-                        vertical: 3.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: colors.black.withValues(alpha: 0.55),
-                        borderRadius: BorderRadius.circular(20.r),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        spacing: 2.w,
-                        children: [
-                          Icon(
-                            Icons.star_rounded,
-                            color: Colors.amber,
-                            size: 14.w,
-                          ),
-                          Text(
-                            recipe.rating.toStringAsFixed(1),
-                            style: textStyles.rating.copyWith(
-                              color: colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(10.w, 10.h, 10.w, 12.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    recipe.name,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: textStyles.recipeName,
-                  ),
-                  SizedBox(height: 8.h),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.arrow_forward_rounded,
-                        size: 14.w,
-                        color: colors.primary,
-                      ),
-                      SizedBox(width: 4.w),
-                      Text(
-                        'Read More',
-                        style: textStyles.readMore.copyWith(
-                          color: colors.primary,
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.w),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          recipe.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: textStyles.recipeName,
                         ),
-                      ),
-                    ],
+                        SizedBox(height: 8.h),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.arrow_forward_rounded,
+                              size: 14.w,
+                              color: colors.primary,
+                            ),
+                            SizedBox(width: 4.w),
+                            Text(
+                              'Read More',
+                              style: textStyles.readMore.copyWith(
+                                color: colors.primary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ],
+                ),
+              ],
+            ),
+            Positioned(
+              top: 8.h,
+              right: 8.w,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 3.h),
+                decoration: BoxDecoration(
+                  color: colors.black.withValues(alpha: 0.7),
+                  borderRadius: BorderRadius.circular(20.r),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  spacing: 2.w,
+                  children: [
+                    Icon(Icons.star_rounded, color: Colors.amber, size: 14.w),
+                    Text(
+                      recipe.rating.toStringAsFixed(1),
+                      style: textStyles.rating.copyWith(color: colors.white),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

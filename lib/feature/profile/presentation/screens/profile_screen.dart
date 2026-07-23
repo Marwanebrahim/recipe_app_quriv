@@ -18,9 +18,7 @@ class ProfileScreen extends StatelessWidget {
           backgroundColor: context.appColors.primary,
           onTap: () {
             context.read<ThemeCubit>().updateTheme(
-              Theme.of(context).brightness == Brightness.dark
-                  ? ThemeMode.light
-                  : ThemeMode.dark,
+              context.isDarkMode ? ThemeMode.light : ThemeMode.dark,
             );
           },
           child: Center(child: const Text('Toggle theme')),

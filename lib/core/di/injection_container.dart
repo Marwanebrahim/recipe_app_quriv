@@ -8,6 +8,7 @@ import 'package:recipe_app_quriv/feature/home/domain/repository/home_repository.
 import 'package:recipe_app_quriv/feature/home/domain/use-case/get_all_categories_use_case.dart';
 import 'package:recipe_app_quriv/feature/home/domain/use-case/get_all_recipes_use_case.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_bloc.dart';
+import 'package:recipe_app_quriv/feature/main_navigation/presentation/cubit/navigation_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -15,6 +16,8 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<Dio>(() => DioHelper.getDio());
 
   sl.registerFactory<ThemeCubit>(() => ThemeCubit());
+  sl.registerFactory<NavigationCubit>(() => NavigationCubit());
+
   // home features
   sl.registerLazySingleton<RemoteDataSource>(
     () => RemoteDataSourceImpl(dio: sl()),
