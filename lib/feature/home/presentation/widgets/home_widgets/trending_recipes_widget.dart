@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recipe_app_quriv/core/helpers/extensions.dart';
+import 'package:recipe_app_quriv/feature/home/domain/entity/recipe_entity.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_bloc.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_state.dart';
-import 'package:recipe_app_quriv/feature/home/presentation/widgets/recipe_card.dart';
+import 'package:recipe_app_quriv/feature/home/presentation/widgets/home_widgets/recipe_card.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class TrendingRecipesWidget extends StatelessWidget {
   const TrendingRecipesWidget({super.key});
@@ -27,12 +29,7 @@ class TrendingRecipesWidget extends StatelessWidget {
               current is HomeLoadingState,
           builder: (context, state) {
             if (state is HomeLoadingState) {
-              //TODO: add shimmer effect
-              return SliverToBoxAdapter(
-                child: Center(
-                  child: CircularProgressIndicator(color: colors.primary),
-                ),
-              );
+              return _buildLoadingState();
             } else if (state is RecipeSuccesfulState) {
               return SliverGrid(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -62,6 +59,35 @@ class TrendingRecipesWidget extends StatelessWidget {
           },
         ),
       ],
+    );
+  }
+
+  SliverSkeletonizer _buildLoadingState() {
+    return  SliverSkeletonizer(
+      child: SliverGrid(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 16.h,
+          crossAxisSpacing: 16.w,
+          childAspectRatio: 0.72,
+        ),
+        delegate: SliverChildBuilderDelegate(
+          childCount: 4,
+          (context, index) => RecipeCard(
+            recipe: RecipeEntity(
+              id: 1,
+              name: '',
+              ingredients: [],
+              instructions: [],
+              prepTimeMinutes: 1,
+              cookTimeMinutes: 1,
+              servings: 1,
+              image: '',
+              rating: 1,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -19,6 +19,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     GetAllCategoriesEvent event,
     Emitter<HomeState> emit,
   ) async {
+    emit(HomeLoadingState());
     final result = await getAllCategoriesUseCase();
     result.fold(
       (l) => emit(HomeErrorState(message: l.message)),
@@ -30,6 +31,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     GetAllRecipesEvent event,
     Emitter<HomeState> emit,
   ) async {
+    emit(HomeLoadingState());
     final result = await getAllRecipesUseCase();
     result.fold(
       (l) => emit(HomeErrorState(message: l.message)),

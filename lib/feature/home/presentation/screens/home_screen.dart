@@ -4,10 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recipe_app_quriv/core/helpers/extensions.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_bloc.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_event.dart';
-import 'package:recipe_app_quriv/feature/home/presentation/widgets/category_list_widget.dart';
-import 'package:recipe_app_quriv/feature/home/presentation/widgets/greeting_widget.dart';
-import 'package:recipe_app_quriv/feature/home/presentation/widgets/search_bar_widget.dart';
-import 'package:recipe_app_quriv/feature/home/presentation/widgets/trending_recipes_widget.dart';
+import 'package:recipe_app_quriv/feature/home/presentation/widgets/home_widgets/category_list_widget.dart';
+import 'package:recipe_app_quriv/feature/home/presentation/widgets/home_widgets/greeting_widget.dart';
+import 'package:recipe_app_quriv/feature/home/presentation/widgets/home_widgets/search_bar_widget.dart';
+import 'package:recipe_app_quriv/feature/home/presentation/widgets/home_widgets/trending_recipes_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -34,13 +34,17 @@ class HomeScreen extends StatelessWidget {
             automaticallyImplyLeading: false,
             backgroundColor: theme.scaffoldBackgroundColor,
             expandedHeight: 150.h,
-            title: const GreetingWidget(),
+            //TODO: add fixed text in the app bar
             flexibleSpace: FlexibleSpaceBar(
               background: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: const Column(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: [SizedBox(height: 20), SearchBarWidget()],
+                  children: [
+                    GreetingWidget(),
+                    SizedBox(height: 20),
+                    SearchBarWidget(),
+                  ],
                 ),
               ),
             ),

@@ -3,8 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recipe_app_quriv/core/constants/app_assets.dart';
 import 'package:recipe_app_quriv/core/helpers/extensions.dart';
+import 'package:recipe_app_quriv/core/theme/app_colors.dart';
+import 'package:recipe_app_quriv/core/theme/app_text_style.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_bloc.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_state.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class CategoryListWidget extends StatelessWidget {
   const CategoryListWidget({super.key});
@@ -17,10 +20,7 @@ class CategoryListWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Categories',
-          style: textStyles.sectionTitle,
-        ),
+        Text('Categories', style: textStyles.sectionTitle),
 
         SizedBox(height: 32.h),
 
@@ -31,10 +31,7 @@ class CategoryListWidget extends StatelessWidget {
               current is HomeLoadingState,
           builder: (context, state) {
             if (state is HomeLoadingState) {
-              // TODO: add shimmer effect
-              return Center(
-                child: CircularProgressIndicator(color: colors.primary),
-              );
+              return _buildLoadingState(context, textStyles, colors);
             }
 
             if (state is CategorySuccesfulState) {
@@ -43,7 +40,6 @@ class CategoryListWidget extends StatelessWidget {
                 child: ListView.separated(
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: state.categories.length,
                   separatorBuilder: (context, index) => SizedBox(width: 16.w),
                   itemBuilder: (context, index) {
@@ -80,6 +76,46 @@ class CategoryListWidget extends StatelessWidget {
           },
         ),
       ],
+    );
+  }
+
+  Skeletonizer _buildLoadingState(
+    BuildContext context,
+    AppTextStyles textStyles,
+    AppColors colors,
+  ) {
+    return Skeletonizer(
+      containersColor: context.appColors.white,
+      ignoreContainers: true,
+      child: SizedBox(
+        height: 140.h,
+        child: ListView.separated(
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          itemCount: 5,
+          separatorBuilder: (context, index) => SizedBox(width: 16.w),
+          itemBuilder: (context, index) {
+            return Column(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.r),
+                  child: Image.asset(
+                    AppAssets.categoryImage,
+                    fit: BoxFit.cover,
+                    height: 100.h,
+                    width: 100.w,
+                  ),
+                ),
+                SizedBox(height: 8.h),
+                Text(
+                  "pizza",
+                  style: textStyles.bodySmall.copyWith(color: colors.black),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
     );
   }
 }

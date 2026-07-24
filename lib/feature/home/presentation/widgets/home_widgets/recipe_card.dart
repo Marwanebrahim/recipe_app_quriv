@@ -39,7 +39,6 @@ class RecipeCard extends StatelessWidget {
         child: Stack(
           children: [
             Column(
-              // mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Expanded(
                   flex: 3,
