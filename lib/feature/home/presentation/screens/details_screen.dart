@@ -24,15 +24,29 @@ class DetailsScreen extends StatelessWidget {
               expandedHeight: 260.h,
               pinned: true,
               backgroundColor: colors.background,
+              leadingWidth: 50,
+              leading: Padding(
+                padding: const EdgeInsets.only(left: 12.0),
+                child: CircleAvatar(
+                  backgroundColor: colors.lightBackground,
+                  child: IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: Icon(Icons.arrow_back_rounded, color: colors.text),
+                  ),
+                ),
+              ),
               flexibleSpace: FlexibleSpaceBar(
-                background: CachedNetworkImage(
-                  imageUrl: recipe.image,
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) =>
-                      Container(color: colors.lightBackground),
-                  errorWidget: (context, url, error) => Container(
-                    color: colors.lightBackground,
-                    child: Icon(Icons.restaurant_rounded, color: colors.text),
+                background: Hero(
+                  tag: recipe.id,
+                  child: CachedNetworkImage(
+                    imageUrl: recipe.image,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) =>
+                        Container(color: colors.lightBackground),
+                    errorWidget: (context, url, error) => Container(
+                      color: colors.lightBackground,
+                      child: Icon(Icons.restaurant_rounded, color: colors.text),
+                    ),
                   ),
                 ),
               ),

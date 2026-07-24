@@ -42,14 +42,18 @@ class RecipeCard extends StatelessWidget {
               children: [
                 Expanded(
                   flex: 3,
-                  child: CachedNetworkImage(
-                    imageUrl: recipe.image,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => Center(
-                      child: CircularProgressIndicator(color: colors.primary),
+                  child: Hero(
+                    tag: recipe.id,
+                    transitionOnUserGestures: true,
+                    child: CachedNetworkImage(
+                      imageUrl: recipe.image,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => Center(
+                        child: CircularProgressIndicator(color: colors.primary),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          Icon(Icons.error, color: colors.error),
                     ),
-                    errorWidget: (context, url, error) =>
-                        Icon(Icons.error, color: colors.error),
                   ),
                 ),
                 Expanded(

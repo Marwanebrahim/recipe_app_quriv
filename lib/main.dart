@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
               builder: (BuildContext context, ThemeMode themeMode) {
                 return MaterialApp(
                   debugShowCheckedModeBanner: false,
-                  onGenerateRoute: onGenerateRoute,
+                  onGenerateRoute: AppRouter.onGenerateRoute,
                   initialRoute: AppRoutes.landingPage,
                   theme: AppTheme.lightTheme,
                   darkTheme: AppTheme.darkTheme,
