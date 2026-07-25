@@ -47,7 +47,7 @@ class CategoryListWidget extends StatelessWidget {
                     return Column(
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(8.r),
+                          borderRadius: BorderRadius.circular(8),
                           child: Image.asset(
                             AppAssets.categoryImage,
                             fit: BoxFit.cover,
@@ -98,7 +98,7 @@ class CategoryListWidget extends StatelessWidget {
             return Column(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(8.r),
+                  borderRadius: BorderRadius.circular(8),
                   child: Image.asset(
                     AppAssets.categoryImage,
                     fit: BoxFit.cover,

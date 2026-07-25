@@ -77,7 +77,7 @@ class DetailsScreen extends StatelessWidget {
                             ),
                             decoration: BoxDecoration(
                               color: colors.primary.withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(20.r),
+                              borderRadius: BorderRadius.circular(20),
                             ),
                             child: Row(
                               children: [
