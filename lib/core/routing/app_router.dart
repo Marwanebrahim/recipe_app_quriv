@@ -20,7 +20,7 @@ class AppRouter {
         return _buildRoute(MainNavigation(), setting);
       case AppRoutes.detailsScreen:
         final recipe = setting.arguments as RecipeEntity;
-        return MaterialPageRoute(builder: (_) => DetailsScreen(recipe: recipe));
+        return _buildRoute(DetailsScreen(recipe: recipe), setting);
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

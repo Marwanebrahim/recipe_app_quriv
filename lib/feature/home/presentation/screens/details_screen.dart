@@ -55,16 +55,19 @@ class DetailsScreen extends StatelessWidget {
                       Positioned(
                         child: Opacity(
                           opacity: progress,
-                          child: CachedNetworkImage(
-                            imageUrl: recipe.image,
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) =>
-                                Container(color: colors.lightBackground),
-                            errorWidget: (context, url, error) => Container(
-                              color: colors.lightBackground,
-                              child: Icon(
-                                Icons.restaurant_rounded,
-                                color: colors.text,
+                          child: Hero(
+                            tag: recipe.id,
+                            child: CachedNetworkImage(
+                              imageUrl: recipe.image,
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) =>
+                                  Container(color: colors.lightBackground),
+                              errorWidget: (context, url, error) => Container(
+                                color: colors.lightBackground,
+                                child: Icon(
+                                  Icons.restaurant_rounded,
+                                  color: colors.text,
+                                ),
                               ),
                             ),
                           ),
