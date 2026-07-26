@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recipe_app_quriv/core/styles/app_colors.dart';
 
 class CustomTextFormField extends StatefulWidget {
   const CustomTextFormField({
     super.key,
     required this.hintWidget,
-    required this.isPassword,
+    required this.isObsecure,
     required this.validator,
     required this.controller,
+    this.prefixIcon,
   });
   final Widget hintWidget;
-  final bool isPassword;
+  final bool isObsecure;
   final String? Function(String?)? validator;
   final TextEditingController controller;
+  final Widget? prefixIcon;
 
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
@@ -26,27 +26,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     return TextFormField(
       controller: widget.controller,
       decoration: InputDecoration(
+        prefixIcon: widget.prefixIcon,
         hint: widget.hintWidget,
-        filled: true,
-        fillColor: AppColors.white,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(6.r)),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6.r),
-          borderSide: BorderSide.none
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6.r),
-          borderSide: BorderSide.none
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6.r),
-          borderSide: BorderSide.none
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6.r),
-          borderSide: BorderSide.none,
-        ),
-        suffixIcon: widget.isPassword
+        suffixIcon: widget.isObsecure
             ? IconButton(
                 onPressed: () {
                   setState(() {
@@ -59,7 +41,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
               )
             : null,
       ),
-      obscureText: widget.isPassword ? _obscureText : false,
+      obscureText: widget.isObsecure ? _obscureText : false,
       validator: widget.validator,
     );
   }
