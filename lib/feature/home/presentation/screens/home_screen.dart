@@ -14,7 +14,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final colors = context.appColors;
 
     return RefreshIndicator(
@@ -32,21 +31,57 @@ class HomeScreen extends StatelessWidget {
             elevation: 0,
             scrolledUnderElevation: 0,
             automaticallyImplyLeading: false,
-            backgroundColor: theme.scaffoldBackgroundColor,
             expandedHeight: 150.h,
-            //TODO: add fixed text in the app bar
-            flexibleSpace: FlexibleSpaceBar(
-              background: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+            flexibleSpace: LayoutBuilder(
+              builder: (context, constraints) {
+                final expandedHeight = 150.h;
+
+                final collapsedHeight =
+                    kToolbarHeight + MediaQuery.paddingOf(context).top;
+
+                final currentHeight = constraints.maxHeight;
+
+                final progress =
+                    ((currentHeight - collapsedHeight) /
+                            (expandedHeight - collapsedHeight))
+                        .clamp(0.0, 1.0);
+
+                return Stack(
+                  fit: StackFit.expand,
                   children: [
-                    GreetingWidget(),
-                    SizedBox(height: 20),
-                    SearchBarWidget(),
+                    // Expanded UI
+                    Positioned(
+                      left: 20.w,
+                      right: 20.w,
+                      bottom: 20.h,
+                      child: Opacity(
+                        opacity: progress,
+                        child: const Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            GreetingWidget(),
+                            SizedBox(height: 20),
+                            SearchBarWidget(),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    // Collapsed title
+                    Positioned(
+                      left: 20.w,
+                      bottom: 16.h,
+                      child: Opacity(
+                        opacity: 1 - progress,
+                        child: Text(
+                          'Home Screen',
+                          style: context.appTextStyles.sectionTitle,
+                        ),
+                      ),
+                    ),
                   ],
-                ),
-              ),
+                );
+              },
             ),
           ),
           SliverPadding(

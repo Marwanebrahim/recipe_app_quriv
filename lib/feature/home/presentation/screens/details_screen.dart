@@ -23,10 +23,11 @@ class DetailsScreen extends StatelessWidget {
             SliverAppBar(
               expandedHeight: 260.h,
               pinned: true,
-              backgroundColor: colors.background,
+              elevation: 0,
+              scrolledUnderElevation: 0,
               leadingWidth: 50,
               leading: Padding(
-                padding: const EdgeInsets.only(left: 12.0),
+                padding: EdgeInsets.only(left: 12.0.w),
                 child: CircleAvatar(
                   backgroundColor: colors.lightBackground,
                   child: IconButton(
@@ -35,77 +36,108 @@ class DetailsScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              flexibleSpace: FlexibleSpaceBar(
-                background: Hero(
-                  tag: recipe.id,
-                  child: CachedNetworkImage(
-                    imageUrl: recipe.image,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) =>
-                        Container(color: colors.lightBackground),
-                    errorWidget: (context, url, error) => Container(
-                      color: colors.lightBackground,
-                      child: Icon(Icons.restaurant_rounded, color: colors.text),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Transform.translate(
-                offset: Offset(14.w, 8),
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(16.w, 16.h, 24.w, 24.h),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              flexibleSpace: LayoutBuilder(
+                builder: (context, constraints) {
+                  final expandedHeight = 260.h;
+
+                  final collapsedHeight =
+                      kToolbarHeight + MediaQuery.paddingOf(context).top;
+
+                  final currentHeight = constraints.maxHeight;
+
+                  final progress =
+                      ((currentHeight - collapsedHeight) /
+                              (expandedHeight - collapsedHeight))
+                          .clamp(0.0, 1.0);
+                  return Stack(
+                    fit: StackFit.expand,
                     children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              recipe.name,
-                              style: textStyles.buttonLarge.copyWith(
-                                color: colors.black,
+                      Positioned(
+                        child: Opacity(
+                          opacity: progress,
+                          child: CachedNetworkImage(
+                            imageUrl: recipe.image,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) =>
+                                Container(color: colors.lightBackground),
+                            errorWidget: (context, url, error) => Container(
+                              color: colors.lightBackground,
+                              child: Icon(
+                                Icons.restaurant_rounded,
+                                color: colors.text,
                               ),
                             ),
                           ),
-                          SizedBox(width: 8.w),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 10.w,
-                              vertical: 6.h,
-                            ),
-                            decoration: BoxDecoration(
-                              color: colors.primary.withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.star_rounded,
-                                  color: colors.primary,
-                                  size: 16,
-                                ),
-                                SizedBox(width: 4.w),
-                                Text(
-                                  recipe.rating.toStringAsFixed(1),
-                                  style: textStyles.recipeName.copyWith(
-                                    color: colors.primary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                      SizedBox(height: 28.h),
-                      TimeContainer(
-                        prepTime: recipe.prepTimeMinutes,
-                        cookTime: recipe.cookTimeMinutes,
-                        serving: recipe.servings,
+                      Positioned(
+                        left: 76.w,
+                        bottom: 14.h,
+                        child: Opacity(
+                          opacity: 1 - progress,
+                          child: Text(
+                            "Recipe Details",
+                            style: textStyles.sectionTitle,
+                          ),
+                        ),
                       ),
                     ],
-                  ),
+                  );
+                },
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(24.w, 16.h, 24.w, 16.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            recipe.name,
+                            style: textStyles.buttonLarge.copyWith(
+                              color: colors.black,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 8.w),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10.w,
+                            vertical: 6.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: colors.primary.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.star_rounded,
+                                color: colors.primary,
+                                size: 16,
+                              ),
+                              SizedBox(width: 4.w),
+                              Text(
+                                recipe.rating.toStringAsFixed(1),
+                                style: textStyles.recipeName.copyWith(
+                                  color: colors.primary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 28.h),
+                    TimeContainer(
+                      prepTime: recipe.prepTimeMinutes,
+                      cookTime: recipe.cookTimeMinutes,
+                      serving: recipe.servings,
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -153,7 +185,7 @@ class _TabBarDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    return ColoredBox(color: context.appColors.background, child: tabBar);
+    return tabBar;
   }
 
   @override
