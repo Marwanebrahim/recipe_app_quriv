@@ -44,6 +44,10 @@ dependencies:
   # Network packages
   dio: ^5.9.2
   pretty_dio_logger: ^1.4.0
+  # firebase packages
+  firebase_core: ^4.12.1
+  firebase_auth: ^6.5.6
+  cloud_firestore: ^6.7.1
   # functional programming packages
   dartz: ^0.10.1
   # dependency injection

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "75767041175",
+    "project_id": "recipe-app-quriv",
+    "storage_bucket": "recipe-app-quriv.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:75767041175:android:cbdc37bd9ae94635b0edd2",
+        "android_client_info": {
+          "package_name": "com.example.recipe_app_quriv"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsm5Kl5rdvA98agouAW84y68uP4kc5Oh4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
