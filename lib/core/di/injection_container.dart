@@ -9,6 +9,7 @@ import 'package:recipe_app_quriv/feature/auth/data/repository/auth_repository_im
 import 'package:recipe_app_quriv/feature/auth/domain/repository/auth_repository.dart';
 import 'package:recipe_app_quriv/feature/auth/domain/use-case/auth_checked_use_case.dart';
 import 'package:recipe_app_quriv/feature/auth/domain/use-case/log_in_use_case.dart';
+import 'package:recipe_app_quriv/feature/auth/domain/use-case/log_out_use_case.dart';
 import 'package:recipe_app_quriv/feature/auth/domain/use-case/sign_up_use_case.dart';
 import 'package:recipe_app_quriv/feature/auth/presentation/bloc/auth_bloc.dart';
 import 'package:recipe_app_quriv/feature/home/data/data-source/remote_data_source.dart';
@@ -18,6 +19,12 @@ import 'package:recipe_app_quriv/feature/home/domain/use-case/get_all_categories
 import 'package:recipe_app_quriv/feature/home/domain/use-case/get_all_recipes_use_case.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_bloc.dart';
 import 'package:recipe_app_quriv/feature/main_navigation/presentation/cubit/navigation_cubit.dart';
+import 'package:recipe_app_quriv/feature/profile/data/datasource/profile_remote_data_source.dart';
+import 'package:recipe_app_quriv/feature/profile/data/repository/profile_repository_impl.dart';
+import 'package:recipe_app_quriv/feature/profile/domain/repository/profile_repository.dart';
+import 'package:recipe_app_quriv/feature/profile/domain/use-case/get_user_profile_use_case.dart';
+import 'package:recipe_app_quriv/feature/profile/domain/use-case/update_user_profile_use_case.dart';
+import 'package:recipe_app_quriv/feature/profile/presentation/bloc/profile_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -43,14 +50,18 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<SignUpUseCase>(
     () => SignUpUseCase(authRepository: sl()),
   );
-sl.registerLazySingleton<AuthCheckedUseCase>(
+  sl.registerLazySingleton<AuthCheckedUseCase>(
     () => AuthCheckedUseCase(repository: sl()),
   );
   sl.registerLazySingleton<LogOutUseCase>(
     () => LogOutUseCase(authRepository: sl()),
   );
   sl.registerFactory<AuthBloc>(
-    () => AuthBloc(logInUseCase: sl(), signUpUseCase: sl()),
+    () => AuthBloc(
+      logInUseCase: sl(),
+      signUpUseCase: sl(),
+      checkAuthUseCase: sl(),
+    ),
   );
   // home features
   sl.registerLazySingleton<RemoteDataSource>(
@@ -67,5 +78,25 @@ sl.registerLazySingleton<AuthCheckedUseCase>(
   );
   sl.registerFactory<HomeBloc>(
     () => HomeBloc(getAllCategoriesUseCase: sl(), getAllRecipesUseCase: sl()),
+  );
+  // profile feature
+  sl.registerLazySingleton<ProfileRemoteDataSource>(
+    () => ProfileRemoteDataSourceImplWithFirebase(db: sl(), firebaseAuth: sl()),
+  );
+  sl.registerLazySingleton<ProfileRepository>(
+    () => ProfileRepositoryImpl(remoteDataSource: sl()),
+  );
+  sl.registerLazySingleton<GetUserProfileUseCase>(
+    () => GetUserProfileUseCase(profileRepository: sl()),
+  );
+  sl.registerLazySingleton<UpdateUserProfileUseCase>(
+    () => UpdateUserProfileUseCase(profileRepository: sl()),
+  );
+  sl.registerFactory<ProfileBloc>(
+    () => ProfileBloc(
+      getUserProfileUseCase: sl(),
+      updateUserProfileUseCase: sl(),
+      logOutUseCase: sl(),
+    ),
   );
 }

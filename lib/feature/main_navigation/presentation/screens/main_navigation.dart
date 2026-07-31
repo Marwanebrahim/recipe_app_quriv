@@ -6,6 +6,8 @@ import 'package:recipe_app_quriv/feature/home/presentation/screens/home_screen.d
 import 'package:recipe_app_quriv/core/di/injection_container.dart';
 import 'package:recipe_app_quriv/feature/main_navigation/presentation/cubit/navigation_cubit.dart';
 import 'package:recipe_app_quriv/feature/main_navigation/presentation/widgets/custom_bottom_nav_bar.dart';
+import 'package:recipe_app_quriv/feature/profile/presentation/bloc/profile_bloc.dart';
+import 'package:recipe_app_quriv/feature/profile/presentation/bloc/profile_event.dart';
 import 'package:recipe_app_quriv/feature/profile/presentation/screens/profile_screen.dart';
 
 class MainNavigation extends StatefulWidget {
@@ -25,7 +27,10 @@ class _MainNavigationState extends State<MainNavigation> {
     ),
     const Center(child: Text('Second Screen')),
     const Center(child: Text('Third Screen')),
-    ProfileScreen(),
+    BlocProvider(
+      create: (_) => sl<ProfileBloc>()..add(LoadProfileEvent()),
+      child: const ProfileScreen(),
+    ),
   ];
 
   @override
