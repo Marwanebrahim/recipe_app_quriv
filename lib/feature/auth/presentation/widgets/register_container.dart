@@ -1,9 +1,14 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recipe_app_quriv/core/helpers/app_dialogs.dart';
 import 'package:recipe_app_quriv/core/helpers/extensions.dart';
 import 'package:recipe_app_quriv/core/helpers/validators.dart';
 import 'package:recipe_app_quriv/core/routing/app_routes.dart';
+import 'package:recipe_app_quriv/feature/auth/presentation/bloc/auth_bloc.dart';
+import 'package:recipe_app_quriv/feature/auth/presentation/bloc/auth_event.dart';
+import 'package:recipe_app_quriv/feature/auth/presentation/bloc/auth_state.dart';
 import 'package:recipe_app_quriv/shared/widgets/custom_button_widget.dart';
 import 'package:recipe_app_quriv/feature/auth/presentation/widgets/custom_text_form_field.dart';
 
@@ -33,145 +38,169 @@ class _RegisterContainerState extends State<RegisterContainer> {
     final colors = context.appColors;
     final textStyles = context.appTextStyles;
 
-    return Form(
-      key: widget.formKey,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Name", style: textStyles.formLabel),
+    return BlocListener<AuthBloc, AuthState>(
+      listenWhen: (previous, current) =>
+          current is AuthErrorState || current is AuthSuccess,
+      listener: (context, state) {
+        if (state is AuthErrorState) {
+          AppDialogs.showAuthErrorDialog(
+            context: context,
+            message: state.message,
+          );
+        }
+        if (state is AuthSuccess) {
+          AppDialogs.showAuthSuccessDialog(
+            context: context,
+            message: "Welcome Back, ${state.user.name}",
+            onPressed: () =>
+                Navigator.pushNamed(context, AppRoutes.mainNavigation),
+          );
+        }
+      },
+      child: Form(
+        key: widget.formKey,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Name", style: textStyles.formLabel),
 
-            SizedBox(height: 8.h),
-            CustomTextFormField(
-              prefixIcon: Icon(
-                Icons.person_outline_outlined,
-                size: 24.w,
-                color: colors.primary,
-              ),
-              hintWidget: Text(
-                "Name",
-                style: textStyles.bodyLarge.copyWith(
-                  color: colors.text.withValues(alpha: 0.6),
+              SizedBox(height: 8.h),
+              CustomTextFormField(
+                prefixIcon: Icon(
+                  Icons.person_outline_outlined,
+                  size: 24.w,
+                  color: colors.primary,
                 ),
-              ),
-              isObsecure: false,
-              controller: widget.nameController,
-              validator: (value) => Validators.nameValidator(value),
-            ),
-
-            SizedBox(height: 18.h),
-
-            Text("EMAIL", style: textStyles.formLabel),
-            SizedBox(height: 8.h),
-            CustomTextFormField(
-              prefixIcon: Icon(
-                Icons.email_outlined,
-                size: 24.w,
-                color: colors.primary,
-              ),
-              hintWidget: Text(
-                "email@gmail.com",
-                style: textStyles.bodyLarge.copyWith(
-                  color: colors.text.withValues(alpha: 0.6),
-                ),
-              ),
-              isObsecure: false,
-              controller: widget.emailController,
-              validator: (value) => Validators.emailValidator(value),
-            ),
-            SizedBox(height: 18.h),
-            Text("PASSWORD", style: textStyles.formLabel),
-
-            SizedBox(height: 8.h),
-            CustomTextFormField(
-              prefixIcon: Icon(
-                Icons.lock_outline,
-                size: 24.w,
-                color: colors.primary,
-              ),
-              hintWidget: Text(
-                "••••••••",
-                style: textStyles.bodyLarge.copyWith(
-                  color: colors.text.withValues(alpha: 0.6),
-                ),
-              ),
-              isObsecure: true,
-              controller: widget.passwordController,
-              validator: (value) => Validators.passwordValidator(value),
-            ),
-            SizedBox(height: 18.h),
-            Row(
-              children: [
-                Checkbox(
-                  shape: CircleBorder(
-                    side: BorderSide(color: colors.primary, width: 1.5.w),
-                  ),
-                  activeColor: colors.primary,
-                  value: _termsAccepted,
-                  onChanged: (value) {
-                    setState(() {
-                      _termsAccepted = value ?? false;
-                    });
-                  },
-                ),
-                Text(
-                  "I agree to the Terms & Conditions",
-                  style: textStyles.bodyMedium.copyWith(
-                    color: colors.black.withValues(alpha: 0.6),
+                hintWidget: Text(
+                  "Name",
+                  style: textStyles.bodyLarge.copyWith(
+                    color: colors.text.withValues(alpha: 0.6),
                   ),
                 ),
-              ],
-            ),
-            SizedBox(height: 46.h),
-            CustomButtonWidget(
-              height: 55,
-              width: 361,
-              borderRadius: 6,
-              backgroundColor: colors.primary,
-              onTap: () {
-                if (widget.formKey.currentState!.validate() && _termsAccepted) {
-                  Navigator.pushReplacementNamed(
-                    context,
-                    AppRoutes.mainNavigation,
-                  );
-                }
-              },
-              child: Center(
-                child: Text('LOG IN', style: textStyles.buttonLarge),
+                isObsecure: false,
+                controller: widget.nameController,
+                validator: (value) => Validators.nameValidator(value),
               ),
-            ),
 
-            SizedBox(height: 20.h),
+              SizedBox(height: 18.h),
 
-            Center(
-              child: Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Already have an account? ',
-                      style: textStyles.bodySmall.copyWith(
-                        color: colors.black.withValues(alpha: 0.6),
-                      ),
+              Text("EMAIL", style: textStyles.formLabel),
+              SizedBox(height: 8.h),
+              CustomTextFormField(
+                prefixIcon: Icon(
+                  Icons.email_outlined,
+                  size: 24.w,
+                  color: colors.primary,
+                ),
+                hintWidget: Text(
+                  "email@gmail.com",
+                  style: textStyles.bodyLarge.copyWith(
+                    color: colors.text.withValues(alpha: 0.6),
+                  ),
+                ),
+                isObsecure: false,
+                controller: widget.emailController,
+                validator: (value) => Validators.emailValidator(value),
+              ),
+              SizedBox(height: 18.h),
+              Text("PASSWORD", style: textStyles.formLabel),
+
+              SizedBox(height: 8.h),
+              CustomTextFormField(
+                prefixIcon: Icon(
+                  Icons.lock_outline,
+                  size: 24.w,
+                  color: colors.primary,
+                ),
+                hintWidget: Text(
+                  "••••••••",
+                  style: textStyles.bodyLarge.copyWith(
+                    color: colors.text.withValues(alpha: 0.6),
+                  ),
+                ),
+                isObsecure: true,
+                controller: widget.passwordController,
+                validator: (value) => Validators.passwordValidator(value),
+              ),
+              SizedBox(height: 18.h),
+              Row(
+                children: [
+                  Checkbox(
+                    shape: CircleBorder(
+                      side: BorderSide(color: colors.primary, width: 1.5.w),
                     ),
-                    TextSpan(
-                      text: 'Log In',
-                      style: textStyles.bodyMedium.copyWith(
-                        color: colors.primary,
-                      ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          Navigator.pushReplacementNamed(
-                            context,
-                            AppRoutes.login,
-                          );
-                        },
+                    activeColor: colors.primary,
+                    value: _termsAccepted,
+                    onChanged: (value) {
+                      setState(() {
+                        _termsAccepted = value ?? false;
+                      });
+                    },
+                  ),
+                  Text(
+                    "I agree to the Terms & Conditions",
+                    style: textStyles.bodyMedium.copyWith(
+                      color: colors.black.withValues(alpha: 0.6),
                     ),
-                  ],
+                  ),
+                ],
+              ),
+              SizedBox(height: 46.h),
+              CustomButtonWidget(
+                height: 55,
+                width: 361,
+                borderRadius: 6,
+                backgroundColor: colors.primary,
+                onTap: () {
+                  if (widget.formKey.currentState!.validate() &&
+                      _termsAccepted) {
+                    context.read<AuthBloc>().add(
+                      SignUpEvent(
+                        email: widget.emailController.text,
+                        password: widget.passwordController.text,
+                        name: widget.nameController.text,
+                      ),
+                    );
+                  }
+                },
+                child: Center(
+                  child: Text('LOG IN', style: textStyles.buttonLarge),
                 ),
               ),
-            ),
-          ],
+
+              SizedBox(height: 20.h),
+
+              Center(
+                child: Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Already have an account? ',
+                        style: textStyles.bodySmall.copyWith(
+                          color: colors.black.withValues(alpha: 0.6),
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'Log In',
+                        style: textStyles.bodyMedium.copyWith(
+                          color: colors.primary,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Navigator.pushReplacementNamed(
+                              context,
+                              AppRoutes.login,
+                            );
+                          },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

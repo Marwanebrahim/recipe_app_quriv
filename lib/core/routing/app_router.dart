@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:recipe_app_quriv/core/di/injection_container.dart';
 import 'package:recipe_app_quriv/core/routing/app_routes.dart';
+import 'package:recipe_app_quriv/feature/auth/presentation/bloc/auth_bloc.dart';
 import 'package:recipe_app_quriv/feature/main_navigation/presentation/screens/main_navigation.dart';
 import 'package:recipe_app_quriv/feature/app/presentation/screens/landing_page.dart';
 import 'package:recipe_app_quriv/feature/auth/presentation/screens/log_in_screen.dart';
@@ -13,9 +16,21 @@ class AppRouter {
       case AppRoutes.landingPage:
         return MaterialPageRoute(builder: (_) => LandingPage());
       case AppRoutes.login:
-        return _buildRoute(LogInScreen(), setting);
+        return _buildRoute(
+          BlocProvider(
+            create: (context) => sl<AuthBloc>(),
+            child: LogInScreen(),
+          ),
+          setting,
+        );
       case AppRoutes.register:
-        return _buildRoute(RegisterScreen(), setting);
+        return _buildRoute(
+          BlocProvider(
+            create: (context) => sl<AuthBloc>(),
+            child: RegisterScreen(),
+          ),
+          setting,
+        );
       case AppRoutes.mainNavigation:
         return _buildRoute(MainNavigation(), setting);
       case AppRoutes.detailsScreen:

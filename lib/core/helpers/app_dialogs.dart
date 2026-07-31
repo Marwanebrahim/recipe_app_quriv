@@ -1,0 +1,56 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:recipe_app_quriv/core/helpers/extensions.dart';
+
+class AppDialogs {
+  static void showAuthErrorDialog({
+    required BuildContext context,
+    required String message,
+  }) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Text(message, style: context.appTextStyles.bodyLarge),
+        content: Icon(
+          Icons.error_outline_outlined,
+          color: Colors.red,
+          size: 70.w,
+        ),
+        contentPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("OK", style: context.appTextStyles.bodySmall),
+          ),
+        ],
+      ),
+    );
+  }
+
+  static void showAuthSuccessDialog({
+    required BuildContext context,
+    required String message,
+    required VoidCallback onPressed,
+  }) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Text(message, style: context.appTextStyles.bodyLarge),
+        content: Icon(
+          Icons.check_circle_outline_outlined,
+          color: Colors.green,
+          size: 70.w,
+        ),
+        contentPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+        actions: [
+          TextButton(
+            onPressed: onPressed,
+            child: Text("OK", style: context.appTextStyles.bodySmall),
+          ),
+        ],
+      ),
+    );
+  }
+}

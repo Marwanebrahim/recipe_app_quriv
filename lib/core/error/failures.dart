@@ -14,3 +14,11 @@ class ServerFailure extends Failure {
 class OfflineFailure extends Failure {
   const OfflineFailure() : super(message: 'No internet connection');
 }
+
+class EmailAlreadyInUseFailure extends Failure {
+  const EmailAlreadyInUseFailure() : super(message: 'Email already in use');
+}
+
+class InvalidCredentialsFailure extends Failure {
+  const InvalidCredentialsFailure() : super(message: 'Invalid credentials');
+}
