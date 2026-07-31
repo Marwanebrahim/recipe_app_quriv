@@ -14,6 +14,10 @@ abstract class AuthRemoteDataSource {
     required String email,
     required String password,
   });
+
+  Future<bool> isLoggedIn();
+
+  Future<void> logOut();
 }
 
 class AuthRemoteDataSourceImplWithFireBase implements AuthRemoteDataSource {
@@ -93,6 +97,25 @@ class AuthRemoteDataSourceImplWithFireBase implements AuthRemoteDataSource {
         default:
           throw ServerException();
       }
+    } catch (e) {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<bool> isLoggedIn() {
+    try {
+      final user = auth.currentUser;
+      return Future.value(user != null);
+    } catch (e) {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<void> logOut() {
+    try {
+      return auth.signOut();
     } catch (e) {
       throw ServerException();
     }

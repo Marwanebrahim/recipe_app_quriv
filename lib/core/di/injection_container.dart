@@ -7,6 +7,7 @@ import 'package:recipe_app_quriv/core/theme/cubit/theme_cubit.dart';
 import 'package:recipe_app_quriv/feature/auth/data/datasource/auth_remote_data_source.dart';
 import 'package:recipe_app_quriv/feature/auth/data/repository/auth_repository_impl.dart';
 import 'package:recipe_app_quriv/feature/auth/domain/repository/auth_repository.dart';
+import 'package:recipe_app_quriv/feature/auth/domain/use-case/auth_checked_use_case.dart';
 import 'package:recipe_app_quriv/feature/auth/domain/use-case/log_in_use_case.dart';
 import 'package:recipe_app_quriv/feature/auth/domain/use-case/sign_up_use_case.dart';
 import 'package:recipe_app_quriv/feature/auth/presentation/bloc/auth_bloc.dart';
@@ -41,6 +42,12 @@ Future<void> initDependencies() async {
   );
   sl.registerLazySingleton<SignUpUseCase>(
     () => SignUpUseCase(authRepository: sl()),
+  );
+sl.registerLazySingleton<AuthCheckedUseCase>(
+    () => AuthCheckedUseCase(repository: sl()),
+  );
+  sl.registerLazySingleton<LogOutUseCase>(
+    () => LogOutUseCase(authRepository: sl()),
   );
   sl.registerFactory<AuthBloc>(
     () => AuthBloc(logInUseCase: sl(), signUpUseCase: sl()),

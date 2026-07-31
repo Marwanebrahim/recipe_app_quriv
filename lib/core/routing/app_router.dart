@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:recipe_app_quriv/core/di/injection_container.dart';
 import 'package:recipe_app_quriv/core/routing/app_routes.dart';
 import 'package:recipe_app_quriv/feature/auth/presentation/bloc/auth_bloc.dart';
+import 'package:recipe_app_quriv/feature/auth/presentation/bloc/auth_event.dart';
 import 'package:recipe_app_quriv/feature/main_navigation/presentation/screens/main_navigation.dart';
 import 'package:recipe_app_quriv/feature/app/presentation/screens/landing_page.dart';
 import 'package:recipe_app_quriv/feature/auth/presentation/screens/log_in_screen.dart';
@@ -14,7 +15,12 @@ class AppRouter {
   static Route<dynamic> onGenerateRoute(RouteSettings setting) {
     switch (setting.name) {
       case AppRoutes.landingPage:
-        return MaterialPageRoute(builder: (_) => LandingPage());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (_) => sl<AuthBloc>()..add(CheckAuthEvent()),
+            child: LandingPage(),
+          ),
+        );
       case AppRoutes.login:
         return _buildRoute(
           BlocProvider(

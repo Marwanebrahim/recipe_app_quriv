@@ -30,3 +30,8 @@ class AuthErrorState extends AuthState {
   @override
   List<Object?> get props => [message];
 }
+
+class AuthCheckeckedState extends AuthState {
+  @override
+  List<Object?> get props => [];
+}
