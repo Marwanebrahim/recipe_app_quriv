@@ -7,7 +7,6 @@ class CustomButtonWidget extends StatelessWidget {
     required this.height,
     required this.width,
     this.backgroundColor,
-    this.gradient,
     required this.borderRadius,
     required this.onTap,
     required this.child,
@@ -16,7 +15,6 @@ class CustomButtonWidget extends StatelessWidget {
   final double height;
   final double width;
   final Color? backgroundColor;
-  final Gradient? gradient;
   final double borderRadius;
   final Color? borderColor;
   final Widget child;
@@ -31,8 +29,7 @@ class CustomButtonWidget extends StatelessWidget {
         width: width.w,
         decoration: BoxDecoration(
           color: backgroundColor,
-          gradient: gradient,
-          borderRadius: BorderRadius.circular(borderRadius.r),
+          borderRadius: BorderRadius.circular(borderRadius),
           border: borderColor != null ? Border.all(color: borderColor!) : null,
         ),
         child: child,

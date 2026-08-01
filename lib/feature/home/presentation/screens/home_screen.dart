@@ -4,17 +4,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recipe_app_quriv/core/helpers/extensions.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_bloc.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_event.dart';
-import 'package:recipe_app_quriv/feature/home/presentation/widgets/category_list_widget.dart';
-import 'package:recipe_app_quriv/feature/home/presentation/widgets/greeting_widget.dart';
-import 'package:recipe_app_quriv/feature/home/presentation/widgets/search_bar_widget.dart';
-import 'package:recipe_app_quriv/feature/home/presentation/widgets/trending_recipes_widget.dart';
+import 'package:recipe_app_quriv/feature/home/presentation/widgets/home_widgets/category_list_widget.dart';
+import 'package:recipe_app_quriv/feature/home/presentation/widgets/home_widgets/greeting_widget.dart';
+import 'package:recipe_app_quriv/feature/home/presentation/widgets/home_widgets/search_bar_widget.dart';
+import 'package:recipe_app_quriv/feature/home/presentation/widgets/home_widgets/trending_recipes_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final colors = context.appColors;
 
     return RefreshIndicator(
@@ -32,17 +31,57 @@ class HomeScreen extends StatelessWidget {
             elevation: 0,
             scrolledUnderElevation: 0,
             automaticallyImplyLeading: false,
-            backgroundColor: theme.scaffoldBackgroundColor,
             expandedHeight: 150.h,
-            title: const GreetingWidget(),
-            flexibleSpace: FlexibleSpaceBar(
-              background: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [SizedBox(height: 20), SearchBarWidget()],
-                ),
-              ),
+            flexibleSpace: LayoutBuilder(
+              builder: (context, constraints) {
+                final expandedHeight = 150.h;
+
+                final collapsedHeight =
+                    kToolbarHeight + MediaQuery.paddingOf(context).top;
+
+                final currentHeight = constraints.maxHeight;
+
+                final progress =
+                    ((currentHeight - collapsedHeight) /
+                            (expandedHeight - collapsedHeight))
+                        .clamp(0.0, 1.0);
+
+                return Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    // Expanded UI
+                    Positioned(
+                      left: 20.w,
+                      right: 20.w,
+                      bottom: 20.h,
+                      child: Opacity(
+                        opacity: progress,
+                        child: const Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            GreetingWidget(),
+                            SizedBox(height: 20),
+                            SearchBarWidget(),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    // Collapsed title
+                    Positioned(
+                      left: 20.w,
+                      bottom: 16.h,
+                      child: Opacity(
+                        opacity: 1 - progress,
+                        child: Text(
+                          'Home Screen',
+                          style: context.appTextStyles.sectionTitle,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
           SliverPadding(
