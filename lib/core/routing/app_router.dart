@@ -10,6 +10,8 @@ import 'package:recipe_app_quriv/feature/auth/presentation/screens/log_in_screen
 import 'package:recipe_app_quriv/feature/auth/presentation/screens/register_screen.dart';
 import 'package:recipe_app_quriv/feature/home/domain/entity/recipe_entity.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/screens/details_screen.dart';
+import 'package:recipe_app_quriv/feature/profile/presentation/bloc/profile_bloc.dart';
+import 'package:recipe_app_quriv/feature/profile/presentation/bloc/profile_event.dart';
 
 class AppRouter {
   static Route<dynamic> onGenerateRoute(RouteSettings setting) {
@@ -38,7 +40,13 @@ class AppRouter {
           setting,
         );
       case AppRoutes.mainNavigation:
-        return _buildRoute(MainNavigation(), setting);
+        return _buildRoute(
+          BlocProvider(
+            create: (context) => sl<ProfileBloc>()..add(LoadProfileEvent()),
+            child: MainNavigation(),
+          ),
+          setting,
+        );
       case AppRoutes.detailsScreen:
         final recipe = setting.arguments as RecipeEntity;
         return MaterialPageRoute(

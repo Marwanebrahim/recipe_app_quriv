@@ -3,8 +3,6 @@ import 'package:equatable/equatable.dart';
 sealed class ProfileEvent extends Equatable {}
 
 class LoadProfileEvent extends ProfileEvent {
-  LoadProfileEvent();
-
   @override
   List<Object?> get props => [];
 }
