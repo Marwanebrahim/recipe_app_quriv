@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:recipe_app_quriv/core/helpers/dio_helper.dart';
+import 'package:recipe_app_quriv/core/service/image_picker_service.dart';
 import 'package:recipe_app_quriv/core/theme/cubit/theme_cubit.dart';
 import 'package:recipe_app_quriv/feature/auth/data/datasource/auth_remote_data_source.dart';
 import 'package:recipe_app_quriv/feature/auth/data/repository/auth_repository_impl.dart';
@@ -23,6 +25,7 @@ import 'package:recipe_app_quriv/feature/profile/data/datasource/profile_remote_
 import 'package:recipe_app_quriv/feature/profile/data/repository/profile_repository_impl.dart';
 import 'package:recipe_app_quriv/feature/profile/domain/repository/profile_repository.dart';
 import 'package:recipe_app_quriv/feature/profile/domain/use-case/get_user_profile_use_case.dart';
+import 'package:recipe_app_quriv/feature/profile/domain/use-case/pick_image_use_case.dart';
 import 'package:recipe_app_quriv/feature/profile/domain/use-case/update_user_profile_use_case.dart';
 import 'package:recipe_app_quriv/feature/profile/presentation/bloc/profile_bloc.dart';
 
@@ -33,10 +36,14 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<Dio>(() => DioHelper.getDio());
   sl.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
   sl.registerLazySingleton<FirebaseFirestore>(() => FirebaseFirestore.instance);
+  sl.registerLazySingleton<ImagePicker>(() => ImagePicker());
   // cubits
   sl.registerFactory<ThemeCubit>(() => ThemeCubit());
   sl.registerFactory<NavigationCubit>(() => NavigationCubit());
-
+  // Services
+  sl.registerLazySingleton<ImagePickerService>(
+    () => ImagePickerService(imagePicker: sl()),
+  );
   // Auth features
   sl.registerLazySingleton<AuthRemoteDataSource>(
     () => AuthRemoteDataSourceImplWithFireBase(auth: sl(), db: sl()),
@@ -84,7 +91,8 @@ Future<void> initDependencies() async {
     () => ProfileRemoteDataSourceImplWithFirebase(db: sl(), firebaseAuth: sl()),
   );
   sl.registerLazySingleton<ProfileRepository>(
-    () => ProfileRepositoryImpl(remoteDataSource: sl()),
+    () =>
+        ProfileRepositoryImpl(remoteDataSource: sl(), imagePickerService: sl()),
   );
   sl.registerLazySingleton<GetUserProfileUseCase>(
     () => GetUserProfileUseCase(profileRepository: sl()),
@@ -92,11 +100,15 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<UpdateUserProfileUseCase>(
     () => UpdateUserProfileUseCase(profileRepository: sl()),
   );
+  sl.registerLazySingleton<PickImageUseCase>(
+    () => PickImageUseCase(profileRepository: sl()),
+  );
   sl.registerFactory<ProfileBloc>(
     () => ProfileBloc(
       getUserProfileUseCase: sl(),
       updateUserProfileUseCase: sl(),
       logOutUseCase: sl(),
+      pickImageUseCase: sl(),
     ),
   );
 }

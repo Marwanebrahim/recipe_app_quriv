@@ -22,3 +22,7 @@ class EmailAlreadyInUseFailure extends Failure {
 class InvalidCredentialsFailure extends Failure {
   const InvalidCredentialsFailure() : super(message: 'Invalid credentials');
 }
+
+class ImageStorageFailure extends Failure {
+  const ImageStorageFailure() : super(message: 'Image storage failure');
+}

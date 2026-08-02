@@ -1,19 +1,18 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:recipe_app_quriv/core/constants/app_assets.dart';
 import 'package:recipe_app_quriv/core/helpers/extensions.dart';
-import 'package:recipe_app_quriv/core/helpers/validators.dart';
+import 'package:recipe_app_quriv/core/routing/app_routes.dart';
 import 'package:recipe_app_quriv/core/theme/app_theme.dart';
 import 'package:recipe_app_quriv/core/theme/cubit/theme_cubit.dart';
-import 'package:recipe_app_quriv/feature/auth/presentation/widgets/custom_text_form_field.dart';
+import 'package:recipe_app_quriv/feature/auth/domain/entity/user_entity.dart';
 import 'package:recipe_app_quriv/feature/profile/presentation/bloc/profile_bloc.dart';
 import 'package:recipe_app_quriv/feature/profile/presentation/bloc/profile_event.dart';
 import 'package:recipe_app_quriv/feature/profile/presentation/bloc/profile_state.dart';
-import 'package:recipe_app_quriv/shared/widgets/custom_button_widget.dart';
+import 'package:recipe_app_quriv/feature/profile/presentation/widgets/profile_header.dart';
+import 'package:recipe_app_quriv/feature/profile/presentation/widgets/profile_menu_tile.dart';
+import 'package:recipe_app_quriv/feature/profile/presentation/widgets/user_name_bottom_sheet.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -23,205 +22,135 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final _nameController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-
-  // Local preview only, until Save is pressed - the bloc doesn't know
-  // about this until UpdateProfileEvent fires.
-  String? _pickedImagePath;
-  bool _nameFieldSeeded = false;
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _pickImage() async {
-    final file = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 80,
-    );
-    if (file != null) {
-      setState(() => _pickedImagePath = file.path);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final colors = context.appColors;
-    final textStyles = context.appTextStyles;
-
+    final appTextStyle = context.appTextStyles;
     return AnimatedTheme(
       data: context.isDarkMode ? AppTheme.darkTheme : AppTheme.lightTheme,
-      duration: const Duration(milliseconds: 500),
-      child: Scaffold(
-        body: SafeArea(
-          child: BlocConsumer<ProfileBloc, ProfileState>(
-            listener: (context, state) {
-              if (state is ProfileSuccessState && !_nameFieldSeeded) {
-                _nameController.text = state.user.name;
-                _nameFieldSeeded = true;
-              }
-              if (state is ProfileErrorState) {
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text(state.message)));
-              }
-            },
-            builder: (context, state) {
-              if (state is ProfileInitialState ||
-                  state is ProfileLoadingState) {
-                return const Center(child: CircularProgressIndicator());
-              }
-
-              final user = state is ProfileSuccessState
-                  ? state.user
-                  : state is ProfileUpdatingState
-                  ? state.user
-                  : null;
-
-              if (user == null) {
-                return Center(
-                  child: Text(
-                    "Couldn't load your profile",
-                    style: textStyles.bodyMedium,
-                  ),
-                );
-              }
-
-              final isSaving = state is ProfileUpdatingState;
-              final displayImagePath = _pickedImagePath ?? user.imagePath;
-
-              return Form(
-                key: _formKey,
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 20.w,
-                    vertical: 24.h,
-                  ),
-                  child: Column(
-                    children: [
-                      Stack(
-                        children: [
-                          CircleAvatar(
-                            radius: 56.r,
-                            backgroundColor: colors.lightBackground,
-                            backgroundImage: displayImagePath != null
-                                ? FileImage(File(displayImagePath))
-                                      as ImageProvider
-                                : const AssetImage(AppAssets.userAvatar),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: GestureDetector(
-                              onTap: _pickImage,
-                              child: CircleAvatar(
-                                radius: 18.r,
-                                backgroundColor: colors.primary,
-                                child: const Icon(
-                                  Icons.camera_alt,
-                                  color: Colors.white,
-                                  size: 18,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 16.h),
-                      Text(
-                        user.email,
-                        style: textStyles.bodySmall.copyWith(
-                          color: colors.grey,
-                        ),
-                      ),
-                      SizedBox(height: 32.h),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text("Name", style: textStyles.formLabel),
-                      ),
-                      SizedBox(height: 8.h),
-                      CustomTextFormField(
-                        controller: _nameController,
-                        isObsecure: false,
-                        validator: (value) => Validators.nameValidator(value),
-                        hintWidget: Text(
-                          "Name",
-                          style: textStyles.bodyLarge.copyWith(
-                            color: colors.text.withValues(alpha: 0.6),
-                          ),
-                        ),
-                        prefixIcon: Icon(
-                          Icons.person_outline,
-                          color: colors.primary,
-                        ),
-                      ),
-                      SizedBox(height: 32.h),
-                      CustomButtonWidget(
-                        height: 55,
-                        width: 361,
-                        borderRadius: 6,
-                        backgroundColor: colors.primary,
-                        onTap: isSaving
-                            ? () {}
-                            : () {
-                                if (_formKey.currentState!.validate()) {
-                                  context.read<ProfileBloc>().add(
-                                    UpdateProfileEvent(
-                                      name: _nameController.text.trim(),
-                                      imagePath: displayImagePath,
-                                    ),
-                                  );
-                                }
-                              },
-                        child: Center(
-                          child: isSaving
-                              ? SizedBox(
-                                  height: 22,
-                                  width: 22,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    color: colors.white,
-                                  ),
-                                )
-                              : Text('SAVE', style: textStyles.buttonLarge),
-                        ),
-                      ),
-                      SizedBox(height: 16.h),
-                      CustomButtonWidget(
-                        height: 56,
-                        width: 300,
-                        borderRadius: 10,
-                        backgroundColor: colors.primary,
-                        onTap: () {
-                          context.read<ThemeCubit>().updateTheme(
-                            context.isDarkMode
-                                ? ThemeMode.light
-                                : ThemeMode.dark,
-                          );
-                        },
-                        child: const Center(child: Text('Toggle theme')),
-                      ),
-                      SizedBox(height: 16.h),
-                      CustomButtonWidget(
-                        height: 56,
-                        width: 300,
-                        borderRadius: 10,
-                        backgroundColor: colors.primary,
-                        onTap: () {
-                          context.read<ProfileBloc>().add(LogoutEvent());
-                        },
-                        child: const Center(child: Text('Logout')),
-                      ),
-                    ],
-                  ),
+      child: BlocBuilder<ProfileBloc, ProfileState>(
+        buildWhen: (previous, current) =>
+            current is ProfileSuccessState ||
+            current is ProfileErrorState ||
+            current is ProfileUpdatingState ||
+            current is ProfileLoadingState,
+        builder: (context, state) {
+          if (state is ProfileLoadingState) {
+            return Skeletonizer(
+              child: _profileContent(
+                context: context,
+                profile: UserEntity(
+                  uid: "",
+                  email: "email",
+                  name: "name",
+                  imagePath: "imagePath",
                 ),
+              ),
+            );
+          } else if (state is ProfileSuccessState) {
+            return BlocProvider.value(
+              value: context.read<ProfileBloc>(),
+              child: _profileContent(context: context, profile: state.user),
+            );
+          } else if (state is ProfileUpdatingState) {
+            return BlocProvider.value(
+              value: context.read<ProfileBloc>(),
+              child: _profileContent(context: context, profile: state.user),
+            );
+          } else if (state is ProfileErrorState) {
+            return Center(
+              child: Text(state.message, style: appTextStyle.bodyMedium),
+            );
+          } else {
+            return const SizedBox.shrink();
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _profileContent({
+    required BuildContext context,
+    required UserEntity profile,
+  }) {
+    final colors = context.appColors;
+    final appTextStyle = context.appTextStyles;
+    return Padding(
+      padding: EdgeInsets.fromLTRB(
+        20.w,
+        MediaQuery.paddingOf(context).top + 20.h,
+        20.w,
+        MediaQuery.paddingOf(context).bottom,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ProfileHeader(profile: profile),
+          SizedBox(height: 50.h),
+          Text(
+            "Settings",
+            style: appTextStyle.bodyLarge.copyWith(
+              color: colors.black.withValues(alpha: 0.85),
+            ),
+          ),
+          SizedBox(height: 20),
+          ProfileMenuTile(
+            title: "Change password",
+            icon: Icons.person,
+            onTap: () {},
+          ),
+          SizedBox(height: 4.h),
+          ProfileMenuTile(
+            title: "Change Username",
+            icon: Icons.person,
+            onTap: () {
+              final profileBloc = context.read<ProfileBloc>();
+              showModalBottomSheet(
+                context: context,
+                backgroundColor: colors.background,
+                builder: (sheetContext) {
+                  return BlocProvider.value(
+                    value: profileBloc,
+                    child: const UserNameBottomSheet(),
+                  );
+                },
               );
             },
           ),
-        ),
+          SizedBox(height: 12.h),
+          Text("Preferences", style: appTextStyle.bodyLarge),
+          SizedBox(height: 4.h),
+          ProfileMenuTile(
+            title: "Dark Mode",
+            icon: Icons.dark_mode_rounded,
+            usedForNavigation: false,
+            trailing: Switch(
+              value: context.isDarkMode,
+              activeTrackColor: colors.primary.withValues(alpha: 0.35),
+              activeThumbColor: colors.primary.withValues(alpha: 0.8),
+              onChanged: (value) => context.read<ThemeCubit>().updateTheme(
+                context.isDarkMode ? ThemeMode.light : ThemeMode.dark,
+              ),
+            ),
+            onTap: () {},
+          ),
+
+          SizedBox(height: 12.h),
+          Text("General", style: appTextStyle.bodyLarge),
+          SizedBox(height: 4.h),
+          ProfileMenuTile(
+            title: "Logout",
+            icon: Icons.logout_rounded,
+            isDanger: true,
+            onTap: () {
+              context.read<ProfileBloc>().add(LogoutEvent());
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                AppRoutes.landingPage,
+                (route) => false,
+              );
+            },
+          ),
+        ],
       ),
     );
   }

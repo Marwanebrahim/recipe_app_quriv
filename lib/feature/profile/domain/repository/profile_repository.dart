@@ -7,4 +7,5 @@ abstract class ProfileRepository {
   Future<Either<Failure, UserEntity>> updateUserProfile({
   required UserEntity userEntity,
   });
+  Future<Either<Failure, String>> pickImage();
 }
