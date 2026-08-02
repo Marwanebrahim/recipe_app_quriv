@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recipe_app_quriv/core/helpers/dio_helper.dart';
 import 'package:recipe_app_quriv/core/service/image_picker_service.dart';
@@ -11,6 +12,7 @@ import 'package:recipe_app_quriv/feature/auth/data/repository/auth_repository_im
 import 'package:recipe_app_quriv/feature/auth/domain/repository/auth_repository.dart';
 import 'package:recipe_app_quriv/feature/auth/domain/use-case/auth_checked_use_case.dart';
 import 'package:recipe_app_quriv/feature/auth/domain/use-case/log_in_use_case.dart';
+import 'package:recipe_app_quriv/feature/auth/domain/use-case/log_in_with_google_use_case.dart';
 import 'package:recipe_app_quriv/feature/auth/domain/use-case/log_out_use_case.dart';
 import 'package:recipe_app_quriv/feature/auth/domain/use-case/sign_up_use_case.dart';
 import 'package:recipe_app_quriv/feature/auth/presentation/bloc/auth_bloc.dart';
@@ -36,6 +38,7 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<Dio>(() => DioHelper.getDio());
   sl.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
   sl.registerLazySingleton<FirebaseFirestore>(() => FirebaseFirestore.instance);
+  sl.registerLazySingleton<GoogleSignIn>(() => GoogleSignIn.instance);
   sl.registerLazySingleton<ImagePicker>(() => ImagePicker());
   // cubits
   sl.registerFactory<ThemeCubit>(() => ThemeCubit());
@@ -46,7 +49,11 @@ Future<void> initDependencies() async {
   );
   // Auth features
   sl.registerLazySingleton<AuthRemoteDataSource>(
-    () => AuthRemoteDataSourceImplWithFireBase(auth: sl(), db: sl()),
+    () => AuthRemoteDataSourceImplWithFireBase(
+      auth: sl(),
+      db: sl(),
+      googleSignIn: sl(),
+    ),
   );
   sl.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(remoteDataSource: sl()),
@@ -63,11 +70,16 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<LogOutUseCase>(
     () => LogOutUseCase(authRepository: sl()),
   );
+  sl.registerLazySingleton<LogInWithGoogleUseCase>(
+    () => LogInWithGoogleUseCase(authRepository: sl()),
+  );
+  await sl<GoogleSignIn>().initialize();
   sl.registerFactory<AuthBloc>(
     () => AuthBloc(
       logInUseCase: sl(),
       signUpUseCase: sl(),
       checkAuthUseCase: sl(),
+      logInWithGoogleUseCase: sl(),
     ),
   );
   // home features

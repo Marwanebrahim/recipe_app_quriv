@@ -13,7 +13,7 @@ abstract class AuthRepository {
     required String email,
     required String password,
   });
-
+  Future<Either<Failure, UserEntity>> logInWithGoogle();
   Future<Either<Failure, Unit>> checkUser();
 
   Future<Either<Failure, Unit>> logOut();

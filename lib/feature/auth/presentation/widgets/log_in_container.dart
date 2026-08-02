@@ -2,6 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:recipe_app_quriv/core/constants/app_assets.dart';
 import 'package:recipe_app_quriv/core/helpers/app_dialogs.dart';
 import 'package:recipe_app_quriv/core/helpers/extensions.dart';
 import 'package:recipe_app_quriv/core/helpers/validators.dart';
@@ -142,6 +144,35 @@ class LogInContainer extends StatelessWidget {
                     ],
                   ),
                 ),
+              ),
+              SizedBox(height: 34.h),
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomButtonWidget(
+                      height: 56,
+                      width: double.infinity,
+                      borderRadius: 8,
+                      backgroundColor: colors.white,
+                      onTap: () {
+                        context.read<AuthBloc>().add(LogInWithGoogleEvent());
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        spacing: 4.w,
+                        children: [
+                          SvgPicture.asset(AppAssets.googleIcon),
+                          Text(
+                            "Login with Google",
+                            style: textStyles.bodyMedium.copyWith(
+                              color: colors.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

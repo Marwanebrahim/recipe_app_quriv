@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:recipe_app_quriv/core/constants/firebase_constants.dart';
 import 'package:recipe_app_quriv/core/error/exceptions.dart';
 import 'package:recipe_app_quriv/feature/auth/data/model/user_model.dart';
@@ -14,17 +15,21 @@ abstract class AuthRemoteDataSource {
     required String email,
     required String password,
   });
-
   Future<bool> isLoggedIn();
-
+  Future<UserModel> logInWithGoogle();
   Future<void> logOut();
 }
 
 class AuthRemoteDataSourceImplWithFireBase implements AuthRemoteDataSource {
   final FirebaseAuth auth;
   final FirebaseFirestore db;
+  final GoogleSignIn googleSignIn;
 
-  AuthRemoteDataSourceImplWithFireBase({required this.auth, required this.db});
+  AuthRemoteDataSourceImplWithFireBase({
+    required this.auth,
+    required this.db,
+    required this.googleSignIn,
+  });
 
   CollectionReference get _usersCollection =>
       db.collection(FirebaseConstants.usersCollection);
@@ -107,6 +112,42 @@ class AuthRemoteDataSourceImplWithFireBase implements AuthRemoteDataSource {
     try {
       final user = auth.currentUser;
       return Future.value(user != null);
+    } catch (e) {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<UserModel> logInWithGoogle() async {
+    try {
+      GoogleSignInAccount googleUser = await googleSignIn.authenticate();
+      final GoogleSignInAuthentication googleAuth = googleUser.authentication;
+      final credential = GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken,
+      );
+      final userCredential = await auth.signInWithCredential(credential);
+      final docSnapshot = await _usersCollection
+          .doc(userCredential.user!.uid)
+          .get();
+      if (!docSnapshot.exists) {
+        final user = UserModel(
+          email: userCredential.user!.email!,
+          name: userCredential.user!.displayName!,
+          imagePath: null,
+          uid: userCredential.user!.uid,
+        );
+        final userData = user.toMap();
+        await _usersCollection
+            .doc(userCredential.user!.uid)
+            .set(userData, SetOptions(merge: true));
+        return user;
+      }
+      return UserModel.fromMap(docSnapshot.data() as Map<String, dynamic>);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'account-exists-with-different-credential') {
+        throw AccountExistsWithDifferentCredentialException();
+      }
+      throw ServerException();
     } catch (e) {
       throw ServerException();
     }

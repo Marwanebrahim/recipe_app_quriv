@@ -23,6 +23,11 @@ class InvalidCredentialsFailure extends Failure {
   const InvalidCredentialsFailure() : super(message: 'Invalid credentials');
 }
 
+class AccountExistsWithDifferentCredentialFailure extends Failure {
+  const AccountExistsWithDifferentCredentialFailure()
+    : super(message: 'Account already exists with a different sign-in method');
+}
+
 class ImageStorageFailure extends Failure {
   const ImageStorageFailure() : super(message: 'Image storage failure');
 }

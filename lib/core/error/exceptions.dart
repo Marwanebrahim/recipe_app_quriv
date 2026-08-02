@@ -5,3 +5,5 @@ class EmailAlreadyInUseException implements Exception {}
 class InvalidCredentialsException implements Exception {}
 
 class ImageStorageException implements Exception {}
+
+class AccountExistsWithDifferentCredentialException implements Exception {}
