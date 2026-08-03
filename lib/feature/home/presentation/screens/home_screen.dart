@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:recipe_app_quriv/core/helpers/extensions.dart';
+import 'package:recipe_app_quriv/core/routing/app_routes.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_bloc.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/bloc/home_event.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/widgets/home_widgets/category_list_widget.dart';
@@ -58,12 +59,20 @@ class HomeScreen extends StatelessWidget {
                       bottom: 20.h,
                       child: Opacity(
                         opacity: progress,
-                        child: const Column(
+                        child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             GreetingWidget(),
                             SizedBox(height: 20),
-                            SearchBarWidget(),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  AppRoutes.searchScreen,
+                                );
+                              },
+                              child: AbsorbPointer(child: SearchBarWidget()),
+                            ),
                           ],
                         ),
                       ),
@@ -82,13 +91,15 @@ class HomeScreen extends StatelessWidget {
                           builder: (context, state) {
                             if (state is ProfileSuccessState) {
                               return _buildCollapsedTitle(
-                                name: state.user.name, context: context,
+                                name: state.user.name,
+                                context: context,
                               );
                             } else if (state is ProfileUpdatingState) {
                               return _buildCollapsedTitle(
-                                name: state.user.name, context: context,
+                                name: state.user.name,
+                                context: context,
                               );
-                            }else{
+                            } else {
                               return SizedBox.shrink();
                             }
                           },

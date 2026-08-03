@@ -12,6 +12,8 @@ import 'package:recipe_app_quriv/feature/home/domain/entity/recipe_entity.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/screens/details_screen.dart';
 import 'package:recipe_app_quriv/feature/profile/presentation/bloc/profile_bloc.dart';
 import 'package:recipe_app_quriv/feature/profile/presentation/bloc/profile_event.dart';
+import 'package:recipe_app_quriv/feature/search/presentation/bloc/search_bloc.dart';
+import 'package:recipe_app_quriv/feature/search/presentation/screen/search_screen.dart';
 
 class AppRouter {
   static Route<dynamic> onGenerateRoute(RouteSettings setting) {
@@ -51,6 +53,14 @@ class AppRouter {
         final recipe = setting.arguments as RecipeEntity;
         return MaterialPageRoute(
           builder: (context) => DetailsScreen(recipe: recipe),
+        );
+      case AppRoutes.searchScreen:
+        return _buildRoute(
+          BlocProvider(
+            create: (context) => sl<SearchBloc>(),
+            child: SearchScreen(),
+          ),
+          setting,
         );
       default:
         return MaterialPageRoute(

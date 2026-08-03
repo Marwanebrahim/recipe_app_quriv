@@ -30,6 +30,11 @@ import 'package:recipe_app_quriv/feature/profile/domain/use-case/get_user_profil
 import 'package:recipe_app_quriv/feature/profile/domain/use-case/pick_image_use_case.dart';
 import 'package:recipe_app_quriv/feature/profile/domain/use-case/update_user_profile_use_case.dart';
 import 'package:recipe_app_quriv/feature/profile/presentation/bloc/profile_bloc.dart';
+import 'package:recipe_app_quriv/feature/search/data/datasource/search_data_source.dart';
+import 'package:recipe_app_quriv/feature/search/data/repository/search_repository_imp.dart';
+import 'package:recipe_app_quriv/feature/search/domain/repository/search_repository.dart';
+import 'package:recipe_app_quriv/feature/search/domain/use-case/search_recipe_use_case.dart';
+import 'package:recipe_app_quriv/feature/search/presentation/bloc/search_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -98,6 +103,17 @@ Future<void> initDependencies() async {
   sl.registerFactory<HomeBloc>(
     () => HomeBloc(getAllCategoriesUseCase: sl(), getAllRecipesUseCase: sl()),
   );
+  // search feature
+  sl.registerLazySingleton<SearchDataSource>(
+    () => SearchDataSourceImpl(dio: sl()),
+  );
+  sl.registerLazySingleton<SearchRepository>(
+    () => SearchRepositoryImp(dataSource: sl()),
+  );
+  sl.registerLazySingleton<SearchRecipeUseCase>(
+    () => SearchRecipeUseCase(repository: sl()),
+  );
+  sl.registerFactory<SearchBloc>(() => SearchBloc(searchRecipeUseCase: sl()));
   // profile feature
   sl.registerLazySingleton<ProfileRemoteDataSource>(
     () => ProfileRemoteDataSourceImplWithFirebase(db: sl(), firebaseAuth: sl()),
