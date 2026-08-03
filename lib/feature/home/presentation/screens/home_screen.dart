@@ -8,6 +8,8 @@ import 'package:recipe_app_quriv/feature/home/presentation/widgets/home_widgets/
 import 'package:recipe_app_quriv/feature/home/presentation/widgets/home_widgets/greeting_widget.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/widgets/home_widgets/search_bar_widget.dart';
 import 'package:recipe_app_quriv/feature/home/presentation/widgets/home_widgets/trending_recipes_widget.dart';
+import 'package:recipe_app_quriv/feature/profile/presentation/bloc/profile_bloc.dart';
+import 'package:recipe_app_quriv/feature/profile/presentation/bloc/profile_state.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -73,9 +75,23 @@ class HomeScreen extends StatelessWidget {
                       bottom: 16.h,
                       child: Opacity(
                         opacity: 1 - progress,
-                        child: Text(
-                          'Home Screen',
-                          style: context.appTextStyles.sectionTitle,
+                        child: BlocBuilder<ProfileBloc, ProfileState>(
+                          buildWhen: (previous, current) =>
+                              current is ProfileSuccessState ||
+                              current is ProfileUpdatingState,
+                          builder: (context, state) {
+                            if (state is ProfileSuccessState) {
+                              return _buildCollapsedTitle(
+                                name: state.user.name, context: context,
+                              );
+                            } else if (state is ProfileUpdatingState) {
+                              return _buildCollapsedTitle(
+                                name: state.user.name, context: context,
+                              );
+                            }else{
+                              return SizedBox.shrink();
+                            }
+                          },
                         ),
                       ),
                     ),
@@ -95,5 +111,12 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _buildCollapsedTitle({
+    required String name,
+    required BuildContext context,
+  }) {
+    return Text("HI, $name", style: context.appTextStyles.sectionTitle);
   }
 }

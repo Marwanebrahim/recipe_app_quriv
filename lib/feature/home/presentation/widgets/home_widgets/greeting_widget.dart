@@ -29,7 +29,7 @@ class GreetingWidget extends StatelessWidget {
             context,
             colors,
             textStyles,
-            'User',
+            '',
             null,
           );
         } else if (state is ProfileErrorState) {
