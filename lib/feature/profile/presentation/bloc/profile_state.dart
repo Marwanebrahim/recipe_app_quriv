@@ -8,15 +8,10 @@ class ProfileInitialState extends ProfileState {
   List<Object?> get props => [];
 }
 
-class ProfileLoadingState extends ProfileState {
-  @override
-  List<Object?> get props => [];
-}
-
 class ProfileSuccessState extends ProfileState {
   final UserEntity user;
 
-   ProfileSuccessState({required this.user});
+  ProfileSuccessState({required this.user});
 
   @override
   List<Object?> get props => [user];
@@ -25,7 +20,7 @@ class ProfileSuccessState extends ProfileState {
 class ProfileUpdatingState extends ProfileState {
   final UserEntity user;
 
-   ProfileUpdatingState({required this.user});
+  ProfileUpdatingState({required this.user});
 
   @override
   List<Object?> get props => [user];
@@ -34,7 +29,7 @@ class ProfileUpdatingState extends ProfileState {
 class ProfileErrorState extends ProfileState {
   final String message;
 
-   ProfileErrorState({required this.message});
+  ProfileErrorState({required this.message});
 
   @override
   List<Object?> get props => [message];

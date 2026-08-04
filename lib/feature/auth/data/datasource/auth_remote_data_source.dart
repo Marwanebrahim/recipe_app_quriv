@@ -46,15 +46,9 @@ class AuthRemoteDataSourceImplWithFireBase implements AuthRemoteDataSource {
         password: password,
       );
       final uid = userCredential.user!.uid;
-      final user = UserModel(
-        email: email,
-        name: name,
-        imagePath: null,
-        uid: uid,
-      );
+      final user = UserModel.fromUserCredential(userCredential);
       final userData = user.toMap();
       await _usersCollection.doc(uid).set(userData);
-
       return user;
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
@@ -82,12 +76,7 @@ class AuthRemoteDataSourceImplWithFireBase implements AuthRemoteDataSource {
 
       final docSnapshot = await _usersCollection.doc(uid).get();
       if (!docSnapshot.exists) {
-        final user = UserModel(
-          email: email,
-          name: userCredential.user!.displayName!,
-          imagePath: userCredential.user!.photoURL,
-          uid: uid,
-        );
+        final user = UserModel.fromUserCredential(userCredential);
         final userData = user.toMap();
         await _usersCollection.doc(uid).set(userData);
         return user;
@@ -130,12 +119,7 @@ class AuthRemoteDataSourceImplWithFireBase implements AuthRemoteDataSource {
           .doc(userCredential.user!.uid)
           .get();
       if (!docSnapshot.exists) {
-        final user = UserModel(
-          email: userCredential.user!.email!,
-          name: userCredential.user!.displayName!,
-          imagePath: null,
-          uid: userCredential.user!.uid,
-        );
+        final user = UserModel.fromUserCredential(userCredential);
         final userData = user.toMap();
         await _usersCollection
             .doc(userCredential.user!.uid)

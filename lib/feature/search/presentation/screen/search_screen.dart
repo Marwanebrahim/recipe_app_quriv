@@ -38,6 +38,7 @@ class _SearchScreenState extends State<SearchScreen> {
   void dispose() {
     _controller.dispose();
     _focusNode.dispose();
+    debounce?.cancel();
     super.dispose();
   }
 
@@ -69,20 +70,14 @@ class _SearchScreenState extends State<SearchScreen> {
             SizedBox(height: 20.h),
             Expanded(
               child: BlocBuilder<SearchBloc, SearchState>(
-                buildWhen: (previous, current) =>
-                    current is SearchLoadingState ||
-                    current is SearchSuccessState ||
-                    current is SearchEmptyState ||
-                    current is SearchErrorState,
                 builder: (context, state) {
                   if (state is SearchLoadingState) {
                     return _buildLoadingState();
                   }
                   if (state is SearchSuccessState) {
-                    return _buildSuccessState(state);
-                  }
-                  if (state is SearchEmptyState) {
-                    return _buildEmptyState();
+                    return state.recipes.isEmpty
+                        ? _buildEmptyState()
+                        : _buildSuccessState(state);
                   }
                   if (state is SearchErrorState) {
                     return _buildErrorState(state, _controller.text);

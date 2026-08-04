@@ -4,13 +4,13 @@ import 'package:recipe_app_quriv/core/constants/firebase_constants.dart';
 import 'package:recipe_app_quriv/core/error/exceptions.dart';
 import 'package:recipe_app_quriv/feature/auth/data/model/user_model.dart';
 
-abstract class ProfileRemoteDataSource {
+abstract class UserRemoteDataSource {
   Future<UserModel> getUserProfile();
   Future<UserModel> updateUserProfile({required UserModel user});
 }
 
 class ProfileRemoteDataSourceImplWithFirebase
-    implements ProfileRemoteDataSource {
+    implements UserRemoteDataSource {
   final FirebaseFirestore db;
   final FirebaseAuth firebaseAuth;
   ProfileRemoteDataSourceImplWithFirebase({

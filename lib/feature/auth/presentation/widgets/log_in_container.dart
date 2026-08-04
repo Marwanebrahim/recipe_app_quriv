@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:recipe_app_quriv/core/constants/app_assets.dart';
-import 'package:recipe_app_quriv/core/helpers/app_dialogs.dart';
+import 'package:recipe_app_quriv/shared/widgets/app_dialogs.dart';
 import 'package:recipe_app_quriv/core/helpers/extensions.dart';
 import 'package:recipe_app_quriv/core/helpers/validators.dart';
 import 'package:recipe_app_quriv/core/routing/app_routes.dart';
@@ -42,12 +42,7 @@ class LogInContainer extends StatelessWidget {
           );
         }
         if (state is AuthSuccess) {
-          AppDialogs.showAuthSuccessDialog(
-            context: context,
-            message: "Welcome Back, ${state.user.name}",
-            onPressed: () =>
-                Navigator.pushNamed(context, AppRoutes.mainNavigation),
-          );
+          Navigator.pushNamed(context, AppRoutes.mainNavigation);
         }
       },
       child: Form(

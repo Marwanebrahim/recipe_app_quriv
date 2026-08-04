@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
 class UserModel {
   final String uid;
   final String email;
@@ -18,7 +20,14 @@ class UserModel {
       imagePath: map['imagePath'],
     );
   }
-
+  factory UserModel.fromUserCredential(UserCredential userCredential) {
+    return UserModel(
+      uid: userCredential.user!.uid,
+      email: userCredential.user!.email!,
+      name: userCredential.user!.displayName!,
+      imagePath: userCredential.user!.photoURL,
+    );
+  }
   Map<String, dynamic> toMap() {
     return {'uid': uid, 'email': email, 'name': name, 'imagePath': imagePath};
   }

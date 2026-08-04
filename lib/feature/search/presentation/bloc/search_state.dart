@@ -20,10 +20,7 @@ class SearchSuccessState extends SearchState {
   List<Object?> get props => [recipes];
 }
 
-class SearchEmptyState extends SearchState {
-  @override
-  List<Object?> get props => [];
-}
+
 
 class SearchErrorState extends SearchState {
   final String message;

@@ -35,7 +35,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     LoadProfileEvent event,
     Emitter<ProfileState> emit,
   ) async {
-    emit(ProfileLoadingState());
     final result = await getUserProfileUseCase();
     result.fold(
       (failure) => emit(ProfileErrorState(message: failure.message)),

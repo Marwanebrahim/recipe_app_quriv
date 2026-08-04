@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:recipe_app_quriv/core/helpers/app_dialogs.dart';
+import 'package:recipe_app_quriv/shared/widgets/app_dialogs.dart';
 import 'package:recipe_app_quriv/core/helpers/extensions.dart';
 import 'package:recipe_app_quriv/core/helpers/validators.dart';
 import 'package:recipe_app_quriv/core/routing/app_routes.dart';
@@ -49,12 +49,7 @@ class _RegisterContainerState extends State<RegisterContainer> {
           );
         }
         if (state is AuthSuccess) {
-          AppDialogs.showAuthSuccessDialog(
-            context: context,
-            message: "Welcome Back, ${state.user.name}",
-            onPressed: () =>
-                Navigator.pushNamed(context, AppRoutes.mainNavigation),
-          );
+          Navigator.pushNamed(context, AppRoutes.mainNavigation);
         }
       },
       child: Form(
@@ -127,16 +122,26 @@ class _RegisterContainerState extends State<RegisterContainer> {
               SizedBox(height: 18.h),
               Row(
                 children: [
-                  Checkbox(
-                    shape: CircleBorder(
-                      side: BorderSide(color: colors.primary, width: 1.5.w),
-                    ),
-                    activeColor: colors.primary,
-                    value: _termsAccepted,
-                    onChanged: (value) {
-                      setState(() {
-                        _termsAccepted = value ?? false;
-                      });
+                  FormField(
+                    validator: (value) {
+                      if (!_termsAccepted) {
+                        return "Please accept the terms and conditions";
+                      }
+                      return null;
+                    },
+                    builder: (FormFieldState<dynamic> field) {
+                      return Checkbox(
+                        shape: CircleBorder(
+                          side: BorderSide(color: colors.primary, width: 1.5.w),
+                        ),
+                        activeColor: colors.primary,
+                        value: _termsAccepted,
+                        onChanged: (value) {
+                          setState(() {
+                            _termsAccepted = value ?? false;
+                          });
+                        },
+                      );
                     },
                   ),
                   Text(

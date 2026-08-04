@@ -12,7 +12,6 @@ import 'package:recipe_app_quriv/feature/profile/presentation/bloc/profile_state
 import 'package:recipe_app_quriv/feature/profile/presentation/widgets/profile_header.dart';
 import 'package:recipe_app_quriv/feature/profile/presentation/widgets/profile_menu_tile.dart';
 import 'package:recipe_app_quriv/feature/profile/presentation/widgets/user_name_bottom_sheet.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -31,22 +30,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         buildWhen: (previous, current) =>
             current is ProfileSuccessState ||
             current is ProfileErrorState ||
-            current is ProfileUpdatingState ||
-            current is ProfileLoadingState,
+            current is ProfileUpdatingState,
         builder: (context, state) {
-          if (state is ProfileLoadingState) {
-            return Skeletonizer(
-              child: _profileContent(
-                context: context,
-                profile: UserEntity(
-                  uid: "",
-                  email: "email",
-                  name: "name",
-                  imagePath: "imagePath",
-                ),
-              ),
-            );
-          } else if (state is ProfileSuccessState) {
+          if (state is ProfileSuccessState) {
             return BlocProvider.value(
               value: context.read<ProfileBloc>(),
               child: _profileContent(context: context, profile: state.user),
@@ -110,7 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 builder: (sheetContext) {
                   return BlocProvider.value(
                     value: profileBloc,
-                    child: const UserNameBottomSheet(),
+                    child: UserNameBottomSheet(initialName: profile.name),
                   );
                 },
               );
@@ -127,9 +113,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               value: context.isDarkMode,
               activeTrackColor: colors.primary.withValues(alpha: 0.35),
               activeThumbColor: colors.primary.withValues(alpha: 0.8),
-              onChanged: (value) => context.read<ThemeCubit>().updateTheme(
-                context.isDarkMode ? ThemeMode.light : ThemeMode.dark,
-              ),
+              onChanged: (value) => context.read<ThemeCubit>().toggleTheme(),
             ),
             onTap: () {},
           ),

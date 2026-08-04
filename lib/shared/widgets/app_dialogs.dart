@@ -27,30 +27,4 @@ class AppDialogs {
       ),
     );
   }
-
-  static void showAuthSuccessDialog({
-    required BuildContext context,
-    required String message,
-    required VoidCallback onPressed,
-  }) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(message, style: context.appTextStyles.bodyLarge),
-        content: Icon(
-          Icons.check_circle_outline_outlined,
-          color: Colors.green,
-          size: 70.w,
-        ),
-        contentPadding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-        actions: [
-          TextButton(
-            onPressed: onPressed,
-            child: Text("OK", style: context.appTextStyles.bodySmall),
-          ),
-        ],
-      ),
-    );
-  }
 }

@@ -8,7 +8,7 @@ class PickImageUseCase {
 
   PickImageUseCase({required this.profileRepository});
   Future<Either<Failure, String>> call({required UserEntity user}) async {
-    final imageResult = await profileRepository.pickImage();
+    final imageResult = await profileRepository.pickUserProfileImage();
     final updatedUser = user.copyWith(
       imagePath: imageResult.fold((l) => user.imagePath, (r) => r),
     );

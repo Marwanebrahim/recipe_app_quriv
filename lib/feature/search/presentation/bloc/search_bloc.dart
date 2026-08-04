@@ -17,11 +17,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     final result = await searchRecipeUseCase(event.query);
     result.fold(
       (failure) => emit(SearchErrorState(message: failure.message)),
-      (recipes) => emit(
-        recipes.isEmpty
-            ? SearchEmptyState()
-            : SearchSuccessState(recipes: recipes),
-      ),
+      (recipes) => emit(SearchSuccessState(recipes: recipes)),
     );
   }
 }

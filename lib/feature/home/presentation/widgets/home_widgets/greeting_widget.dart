@@ -15,19 +15,11 @@ class GreetingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileBloc, ProfileState>(
       buildWhen: (previous, current) =>
-          current is ProfileLoadingState ||
           current is ProfileSuccessState ||
           current is ProfileUpdatingState ||
           current is ProfileErrorState,
       builder: (context, state) {
-        if (state is ProfileLoadingState) {
-          return _buildGreetingContent(
-            context: context,
-            name: '',
-            imagePath: '',
-            isLoading: true,
-          );
-        } else if (state is ProfileErrorState) {
+        if (state is ProfileErrorState) {
           return Center(child: Text(state.message));
         } else if (state is ProfileSuccessState) {
           final profile = state.user;

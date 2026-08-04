@@ -9,8 +9,8 @@ import 'package:recipe_app_quriv/feature/profile/presentation/bloc/profile_event
 import 'package:recipe_app_quriv/shared/widgets/custom_button_widget.dart';
 
 class UserNameBottomSheet extends StatefulWidget {
-  const UserNameBottomSheet({super.key});
-
+  const UserNameBottomSheet({super.key, required this.initialName});
+  final String initialName;
   @override
   State<UserNameBottomSheet> createState() => _UserNameBottomSheetState();
 }
