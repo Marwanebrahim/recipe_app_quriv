@@ -63,7 +63,7 @@ class TrendingRecipesWidget extends StatelessWidget {
   }
 
   SliverSkeletonizer _buildLoadingState() {
-    return  SliverSkeletonizer(
+    return SliverSkeletonizer(
       child: SliverGrid(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,

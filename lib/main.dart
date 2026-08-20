@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +11,7 @@ import 'package:recipe_app_quriv/core/routing/app_routes.dart';
 import 'package:recipe_app_quriv/core/theme/app_theme.dart';
 import 'package:recipe_app_quriv/core/di/injection_container.dart';
 import 'package:recipe_app_quriv/core/theme/cubit/theme_cubit.dart';
+import 'package:recipe_app_quriv/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +25,7 @@ Future<void> initializations() async {
         ? HydratedStorageDirectory.web
         : HydratedStorageDirectory((await getTemporaryDirectory()).path),
   );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await initDependencies();
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(statusBarColor: Colors.transparent),

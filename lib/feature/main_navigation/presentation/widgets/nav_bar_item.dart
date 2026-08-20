@@ -46,14 +46,12 @@ class _NavBarItemState extends State<NavBarItem> {
           AnimatedOpacity(
             opacity: showEffect ? 1 : 0,
             duration: const Duration(milliseconds: 200),
-            child: AnimatedContainer(
+            child: Container(
               height: 75.h,
               width: 85.w,
-              duration: const Duration(milliseconds: 400),
               decoration: BoxDecoration(
-                color: showEffect
-                    ? widget.color.withValues(alpha: 0.15)
-                    : Colors.transparent,
+                color: widget.color.withValues(alpha: 0.15),
+
                 borderRadius: BorderRadius.circular(24),
               ),
             ),

@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 
 class SearchBarWidget extends StatelessWidget {
-  const SearchBarWidget({super.key});
-
+  const SearchBarWidget({
+    super.key,
+    this.controller,
+    this.onChanged,
+    this.focusNode,
+  });
+  final TextEditingController? controller;
+  final FocusNode? focusNode;
+  final void Function(String)? onChanged;
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
+      focusNode: focusNode,
+      onChanged: onChanged,
       decoration: InputDecoration(
         hintText: 'Search for recipes',
         prefixIcon: const Icon(Icons.search),

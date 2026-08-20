@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "75767041175",
+    "project_id": "recipe-app-quriv",
+    "storage_bucket": "recipe-app-quriv.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:75767041175:android:cbdc37bd9ae94635b0edd2",
+        "android_client_info": {
+          "package_name": "com.example.recipe_app_quriv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "75767041175-p572ot48pje5nq24ha3f5hnb7hvg0out.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.recipe_app_quriv",
+            "certificate_hash": "9b45575d17db2a2a93e5c2d7f4f0d2096c7a6f5b"
+          }
+        },
+        {
+          "client_id": "75767041175-11qh9a36u9sfvlpoq0alf4uullvmrpb5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsm5Kl5rdvA98agouAW84y68uP4kc5Oh4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "75767041175-11qh9a36u9sfvlpoq0alf4uullvmrpb5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "75767041175-9ssc6vr88h4v13fckii0h06e4draeq1a.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.recipeAppQuriv"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

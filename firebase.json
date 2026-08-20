@@ -1,0 +1,1 @@
+{"flutter":{"platforms":{"android":{"default":{"projectId":"recipe-app-quriv","appId":"1:75767041175:android:cbdc37bd9ae94635b0edd2","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"recipe-app-quriv","configurations":{"android":"1:75767041175:android:cbdc37bd9ae94635b0edd2","ios":"1:75767041175:ios:f177bfd7f79d034eb0edd2"}}}}}}
